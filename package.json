@@ -1,0 +1,12 @@
+{
+  "name": "projet-4-manga-sama-back",
+  "version": "1.0.0",
+  "description": "Back-End du projet Manga-SaMA",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
