@@ -9,24 +9,22 @@ DROP TABLE IF EXISTS "user", "role", "manga", "category", "article", "condition"
 
 -- Création du domaine email afin de valider et d'améliorer la consistence de données 
 CREATE DOMAIN email_domain AS VARCHAR(255);
--- La clause CHECK impose une contrainte sur les valeurs de la colonne email_domain
-CHECK (VALUE ~* '^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
-
 -- -----------------------------------------------------
 --             Table des utilisateurs                 --
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "user" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-  "lastname" VARCHAR(30) NOT NULL DEFAULT,
-  "firstname" VARCHAR(30) NOT NULL DEFAULT,
-  "pseudo" VARCHAR(30) NOT NULL DEFAULT,
+  "lastname" VARCHAR(30) NOT NULL,
+  "firstname" VARCHAR(30) NOT NULL,
+  "pseudo" VARCHAR(30) NOT NULL,
   "birthdate" DATE,
   "address" TEXT,
   "zip_code" TEXT,
   "city" TEXT,
   "phone_number" INT,
-  "email" email_domain NOT NULL,
-  "password" VARCHAR(255) NOT NULL DEFAULT,
+  -- La clause CHECK impose une contrainte sur les valeurs de la colonne email_domain
+  "email" email_domain CHECK (email ~* '^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$') NOT NULL,
+  "password" VARCHAR(255) NOT NULL,
   "role_id" INTEGER NOT NULL,  -- on ne peut pas tout de suite indiquer que cette clé est une clé étrangère qui fait référence à la table role, puisque la table role n'existe pas encore ! (on le fera plus tard)
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -37,7 +35,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "role" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-  "role_name" VARCHAR(30) NOT NULL DEFAULT,
+  "role_name" VARCHAR(30) NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -48,7 +46,7 @@ CREATE TABLE IF NOT EXISTS "role" (
 CREATE TABLE IF NOT EXISTS "manga" (
   "code_ISBN" VARCHAR(16) NOT NULL PRIMARY KEY,
   "title" VARCHAR(255) NOT NULL,
-  "year_publication" YEAR NOT NULL ,
+  "year_publication" INTEGER NOT NULL ,
   "author" VARCHAR(30) NOT NULL,
   "description" TEXT NOT NULL,
   "cover_url" TEXT,
@@ -67,19 +65,23 @@ CREATE TABLE IF NOT EXISTS "category" (
   "updated_at" TIMESTAMPTZ
 );
 
+
+-- Création de l'extension uuid-ossp
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- -----------------------------------------------------
 --                 Table des annonces                 --
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "article" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-  "title" VARCHAR(255) NOT NULL DEFAULT,
-  "description" TEXT NOT NULL DEFAULT,
+  "title" VARCHAR(255) NOT NULL,
+  "description" TEXT NOT NULL,
   "price" INT,
   "transaction_id" UUID DEFAULT uuid_generate_v4(),
   "date_transaction" DATE,
   "state_completion" VARCHAR(30),
   "image_url" VARCHAR(255),
-  "condition_id" INTEGER NOT NULL REFERENCES "condition"("id"),
+  "condition_id" INTEGER NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ   
 );
