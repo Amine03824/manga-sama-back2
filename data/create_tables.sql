@@ -3,7 +3,7 @@ BEGIN;
 
 -- Suppression des tables si elles existaient déjà
 
-DROP TABLE IF EXISTS "user", "role", "manga", "category", "article", "condition";
+DROP TABLE IF EXISTS "user", "role", "manga", "category", "article", "condition" CASCADE;
 
 -- Création des tables
 
@@ -44,8 +44,9 @@ CREATE TABLE IF NOT EXISTS "role" (
 --                  Table de mangas                   --
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "manga" (
-  "code_ISBN" VARCHAR(16) NOT NULL PRIMARY KEY,
+  "code_ISBN" VARCHAR(30) NOT NULL PRIMARY KEY,
   "title" VARCHAR(255) NOT NULL,
+  "volume" INTEGER NOT NULL,
   "year_publication" INTEGER NOT NULL ,
   "author" VARCHAR(30) NOT NULL,
   "description" TEXT NOT NULL,
@@ -103,26 +104,26 @@ CREATE TABLE IF NOT EXISTS "condition" (
 -- On remarquera ici la présence de l'instruction FOREIGN KEY qui dit explicitement que cette colonne sert de clé étrangère faisaint référence à la table question
 -- Lors de la création d'une table ce détail est implicite.
 ALTER TABLE "user"
-  ADD FOREIGN KEY ("role_id") REFERENCES "role" ("id");
+  ADD FOREIGN KEY ("role_id") REFERENCES "role" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "manga"
-  ADD FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+  ADD FOREIGN KEY ("category_id") REFERENCES "category" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "article"
-  ADD FOREIGN KEY ("condition_id") REFERENCES "condition" ("id");
+  ADD FOREIGN KEY ("condition_id") REFERENCES "condition" ("id") ON DELETE CASCADE;
 
 -- -----------------------------------------------------
 --                 Tables d'association               --
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "user_has_article" (
-  "user_id" INTEGER NOT NULL REFERENCES "user" ("id"),
-  "article_id" INTEGER NOT NULL REFERENCES "article" ("id"),
+  "user_id" INTEGER NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE,
+  "article_id" INTEGER NOT NULL REFERENCES "article" ("id") ON DELETE CASCADE,
   PRIMARY KEY ("user_id", "article_id")
 );
 
 CREATE TABLE IF NOT EXISTS "manga_has_article" (
-  "manga_code_ISBN" VARCHAR(16) NOT NULL REFERENCES "manga" ("code_ISBN"),
-  "article_id" INTEGER NOT NULL REFERENCES "article" ("id"),
+  "manga_code_ISBN" VARCHAR(16) NOT NULL REFERENCES "manga" ("code_ISBN") ON DELETE CASCADE,
+  "article_id" INTEGER NOT NULL REFERENCES "article" ("id") ON DELETE CASCADE,
   PRIMARY KEY ("manga_code_ISBN", "article_id")
 );
 
