@@ -1,0 +1,15 @@
+
+// créer un manga
+POST http://localhost:3000/manga HTTP/1.1
+Content-Type: application/json
+
+{
+  "code_ISBN": "9791033513575",
+  "title": "Dofus Tome 29",
+  "volume": 29,
+  "year_publication": 2022,
+  "author": "Tot, Ancestral Z",
+  "description": "Gardiens des six Dofus, Arty et son équipe n'ont jamais été aussi prêts à en découdre. Le Cornu Mollu, quant à lui, est aussi au meilleur de sa forme. Le Monde des Douze vit-il ses dernières heures ? Ou le courage du petit groupe peut-il encore faire pencher la balance ? Gloire aux vainqueurs, honneur aux vaincus !",
+  "cover_url": "/home/amine/Code/Apo/Back/projet-4-manga-sama-back/public/images/9791033513575.jpg",
+  "category_id": 1
+}
