@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "role" (
 
 -- -----------------------------------------------------
 --                  Table de mangas                   --
--- 
+-- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "manga" (
   "code_isbn" VARCHAR(30) NOT NULL PRIMARY KEY,
   "title" VARCHAR(255) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "manga" (
 -- ----------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "category" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "name" VARCHAR(30) NOT NULL,
+  "category_name" VARCHAR(30) NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );

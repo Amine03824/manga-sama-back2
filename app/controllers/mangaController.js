@@ -207,8 +207,9 @@ const mangaController = {
 
   modifyOneMangaById : async (request, response) => {
     try {
+      const {code_isbn} = request.params; // Sachant que l'ISBN est unique et ne peut être mofié
+
       const {
-        code_isbn,
         title,
         volume,
         year_publication,

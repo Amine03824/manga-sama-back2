@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Import du controlleur
+// Import du controleur
 const mangaController = require('../controllers/mangaController');
 
 // Routes correspondant aux mangas

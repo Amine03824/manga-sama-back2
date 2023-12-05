@@ -32,4 +32,4 @@ app.listen(PORT, () => {
 //
 // à mettre en off en phase développement
 //
-// connectToDatabase(); 
+connectToDatabase(); 
