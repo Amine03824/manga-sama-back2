@@ -24,7 +24,7 @@ GET http://localhost:3000/manga/9782871294146 HTTP/1.1
 ###
 // Route d'API d'insertion d'un nouveau manga en base de données .getMangaInfos
 POST http://localhost:3000/manga/9782871294146 HTTP/1.1
-
+// TODO: à faire marcher  
 ###
 // Modifier un manga .modifyOneMangaById
 PUT  http://localhost:3000/manga/9782871294146 HTTP/1.1

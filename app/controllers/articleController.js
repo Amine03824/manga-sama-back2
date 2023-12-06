@@ -1,11 +1,11 @@
 const articleDataMapper = require("../dataMappers/articleDataMapper");
 
-// Pour la règle et le respect des conventions du Routeur l'id arrivant par les pararms est noté {id} alors que par le body, il porte le nom de la colonne dans la base de données {id}
 const articleController = {
+  
   // Récupère tous les articles de la base de données
   getAllArticles: async (request, response, next) => {
     try {
-      const articles = await articleDataMapper.findAllarticles();
+      const articles = await articleDataMapper.findAllArticles();
       if (!articles) {
         return next();
       }
@@ -30,7 +30,6 @@ const articleController = {
   createOneArticle: async (request, response) => {
     try {
       const {
-        id,
         title,
         description,
         price,
@@ -40,7 +39,6 @@ const articleController = {
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
       if (
-        !id ||
         !title ||
         !description ||
         !price ||
@@ -50,7 +48,6 @@ const articleController = {
         return response.status(400).json({ error: "Paramètre manquant dans le corps de la requête HTTP" });
       }
       const newArticle = await articleDataMapper.insertOneArticle({
-        id,
         title,
         description,
         price,
@@ -90,8 +87,10 @@ const articleController = {
 
   // Récupère une annonce par son code id
   getOneArticleById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+
+  
       const article = await articleDataMapper.findOneArticleById(id);
       if (!article) {
         // Aucune annonce trouvé, renvoyer une réponse 404 Not Found
@@ -120,8 +119,9 @@ const articleController = {
 
   modifyOneArticleById : async (request, response) => {
     try {
+      const { id } = request.params;
+
       const {
-        id,
         title,
         description,
         price,
@@ -183,8 +183,10 @@ const articleController = {
 
   // Supprime une annnonce par son code ISBN
   removeOneArticleById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+
+  
       const article = await articleDataMapper.deleteOneArticleById(id);
       if (!article) {
         // Aucune annonce trouvée, renvoyer une réponse 404 Not Found

@@ -1,10 +1,11 @@
 const conditionDataMapper = require("../dataMappers/conditionDataMapper");
 
 const conditionController = {
+  
   // Récupère tous les états d'un manga de la base de données
   getAllConditions: async (request, response, next) => {
     try {
-      const conditions = await conditionDataMapper.findAllconditions();
+      const conditions = await conditionDataMapper.findAllConditions();
       if (!conditions) {
         return next();
       }
@@ -28,17 +29,17 @@ const conditionController = {
   createOneCondition: async (request, response) => {
     try {
       const {
-        name,
+        condition_name,
       } = request.body;
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
       if (
-        !name
+        !condition_name
       ) {
         return response.status(400).json({ error: "Paramètre manquant dans le corps de la requête HTTP" });
       }
       const newCondition = await conditionDataMapper.insertOneCondition({
-        name,
+        condition_name,
       });
 
       if (newCondition) {
@@ -73,8 +74,10 @@ const conditionController = {
 
   // Récupère un état par son code id
   getOneConditionById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+
+  
       const condition = await conditionDataMapper.findOneConditionById(id);
       if (!condition) {
         // Aucun état trouvé, renvoyer une réponse 404 Not Found
@@ -103,18 +106,22 @@ const conditionController = {
 
   modifyOneConditionById : async (request, response) => {
     try {
+      const { id } = request.params;
+
+  
       const {
-        name
+        condition_name
       } = request.body;
 
-      if (!name) {
+      if (!condition_name) {
         return response.json({
           status: 400,
           error: "Paramètre manquant dans le corps de la requête HTTP"
         });
       }
       const modifiedCondition = await conditionDataMapper.updateOneCondition({
-        name,
+        id,
+        condition_name,
       });
 
       if (modifiedCondition) {
@@ -150,8 +157,10 @@ const conditionController = {
 
   // Supprime un état par son code ISBN
   removeOneConditionById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+
+  
       const condition = await conditionDataMapper.deleteOneConditionById(id);
       if (!condition) {
         // Aucun état trouvé, renvoyer une réponse 404 Not Found
@@ -164,7 +173,7 @@ const conditionController = {
       return response.json({
         status: 200,
         success: true,
-        message: "Etat supprimé avec succès"
+        message: "État supprimé avec succès"
       });
     } catch (error) {
       console.log(error);

@@ -1,16 +1,17 @@
 const categoryDataMapper = require("../dataMappers/categoryDataMapper");
 
 const categoryController = {
+  
   // Récupère toutes les catégories d'un manga de la base de données
   getAllCategories: async (request, response, next) => {
     try {
-      const category = await categoryDataMapper.findAllcategory();
-      if (!category) {
+      const categories = await categoryDataMapper.findAllCategories();
+      if (!categories) {
         return next();
       }
       response.json({
         status: 200,
-        category
+        categories
       });
     } catch (error) {
       console.log(error);
@@ -73,8 +74,15 @@ const categoryController = {
 
   // Récupère une catégorie par son id
   getOneCategoryById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
+      if (typeof id !== "number") {
+        return response.json({
+          status : 400,
+          error: "Invalid type : id number be a ???? Number voilà bravo"
+        });
+      }
       const category = await categoryDataMapper.findOneCategoryById(id);
       if (!category) {
         // Aucun category trouvé, renvoyer une réponse 404 Not Found
@@ -104,6 +112,15 @@ const categoryController = {
   // Modifie une catégorie par son id
   modifyOneCategoryById : async (request, response) => {
     try {
+      const { id } = request.params;
+      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
+      if (typeof id !== "number") {
+        return response.json({
+          status : 400,
+          error: "Invalid type : id number be a ???? Number voilà bravo"
+        });
+      }
+  
       const {
         category_name
       } = request.body;
@@ -116,6 +133,7 @@ const categoryController = {
       }
       const modifiedCategory = await categoryDataMapper.updateOneCategory({
         category_name,
+        id
       });
 
       if (modifiedCategory) {
@@ -151,8 +169,15 @@ const categoryController = {
 
   // Supprime une par son code id
   removeOneCategoryById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
+      if (typeof id !== "number") {
+        return response.json({
+          status : 400,
+          error: "Invalid type : id number be a ???? Number voilà bravo"
+        });
+      }
       const category = await categoryDataMapper.deleteOneCategoryById(id);
       if (!category) {
         // Aucun catégorie trouvée, renvoyer une réponse 404 Not Found
@@ -165,7 +190,7 @@ const categoryController = {
       return response.json({
         status: 200,
         success: true,
-        message: "Catégorie supprimé avec succès"
+        message: "Catégorie supprimée avec succès"
       });
     } catch (error) {
       console.log(error);

@@ -176,8 +176,16 @@ const mangaController = {
 
   // Récupère un manga par son code isbn
   getOneMangaById: async (request, response) => {
-    const { isbn } = request.params;
     try {
+      const { isbn } = request.params;
+      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
+      if (typeof isbn !== "number") {
+        return response.json({
+          status : 400,
+          error: "Invalid type : isbn number be a ???? Number voilà bravo"
+        });
+      }
+  
       const code_isbn = isbn;
       const manga = await mangaDataMapper.findOneMangaById(code_isbn);
       if (!manga) {
@@ -207,7 +215,15 @@ const mangaController = {
 
   modifyOneMangaById : async (request, response) => {
     try {
-      const {code_isbn} = request.params; // Sachant que l'ISBN est unique et ne peut être mofié
+      const { isbn } = request.params; // Sachant que l'ISBN est unique et ne peut être modifié
+      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
+      if (typeof isbn !== "number") {
+        return response.json({
+          status : 400,
+          error: "Invalid type : isbn number be a ???? Number voilà bravo"
+        });
+      }
+      const code_isbn = isbn;
 
       const {
         title,
@@ -279,8 +295,15 @@ const mangaController = {
 
   // Supprime un manga par son code ISBN
   removeOneMangaById: async (request, response) => {
-    const { isbn } = request.params;
     try {
+      const { isbn } = request.params; // Sachant que l'ISBN est unique et ne peut être modifié
+      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
+      if (typeof isbn !== "number") {
+        return response.json({
+          status : 400,
+          error: "Invalid type : isbn number be a ???? Number voilà bravo"
+        });
+      }
       const code_isbn = isbn;
       const manga = await mangaDataMapper.deleteOneMangaById(code_isbn);
       if (!manga) {

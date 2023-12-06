@@ -7,15 +7,17 @@ const userController = require('../controllers/userController');
 
 // Route correspondant aux utilisateurs
 router.route('/')
-  .get(userController.getAll)
-  .post(userController.create);
+  .get(userController.getAllUsers)
+  .post(userController.createOneUser);
 
 // Route correspondant à un utilisateur spécifique
 router.route('/:id')
   .get(userController.getOneUserById)
-  .path(userController.updateOneUserById)
-  .delete(userController.deleteOneUserById);
+  .put(userController.modifyOneUserById)
+  .delete(userController.removeOneUserById);
 
-
+router.route('/admin/:id')
+  .put(userController.adminModifyOneUserById);
+  
 // Export
 module.exports = router;

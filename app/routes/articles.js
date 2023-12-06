@@ -13,7 +13,7 @@ router.route('/')
 // Routes correspondant à une annonce spécifique
 router.route('/:id')
   .get(articleController.getOneArticleById)
-  .patch(articleController.modifyOneArticleById)
+  .put(articleController.modifyOneArticleById)
   .delete(articleController.removeOneArticleById);
 
 

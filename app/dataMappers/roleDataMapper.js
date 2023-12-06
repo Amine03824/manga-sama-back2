@@ -3,15 +3,17 @@ const {
 } = require('../config/database');
 
 const roleDataMapper = {
+
   // Récupère tous les Roles de la base de données
   findAllRoles: async () => {
-    const sql = "SELECT * FROM role ORDER BY id ASC";
+    const sql = "SELECT * FROM role ORDER BY id ASC;";
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucun Roles trouvés dans la base de données");
     }
     return result.rows;
   },
+
   // Insère un nouveau Role dans la base de données
   insertOneRole: async ({
     role_name
@@ -56,11 +58,10 @@ const roleDataMapper = {
     return result.rows[0];
   },
 
-
   // Récupère une Role par son id
   findOneRoleById: async (id) => {
     const sql = {
-      text: "SELECT * FROM role WHERE id = $1",
+      text: "SELECT * FROM role WHERE id = $1;",
       values: [id]
     };
     const result = await pool.query(sql);
@@ -73,7 +74,7 @@ const roleDataMapper = {
   // Supprime une Role par son id
   deleteOneRoleById: async (id) => {
     const sql = {
-      text: "DELETE FROM role WHERE id = $1",
+      text: "DELETE FROM role WHERE id = $1;",
       values: [id]
     };
     const result = await pool.query(sql);

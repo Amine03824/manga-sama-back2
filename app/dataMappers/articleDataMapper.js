@@ -1,18 +1,20 @@
-// TODO! : à faire pour comprendre ce qu'on va faire dedans
+
 const {
   pool
 } = require('../config/database');
 
 const articleDataMapper = {
+
   // Récupère toutes les Annonces de la base de données
   findAllArticles: async () => {
-    const sql = "SELECT * FROM Article ORDER BY title ASC";
+    const sql = "SELECT * FROM Article ORDER BY title ASC;";
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucune Annonces trouvées dans la base de données");
     }
     return result.rows;
   },
+
   // Insère une nouvelle annonce dans la base de données
   insertOneArticle: async ({
     id,
@@ -94,11 +96,10 @@ const articleDataMapper = {
     return result.rows[0];
   },
 
-
   // Récupère une annonce par son id
   findOneArticleById: async (id) => {
     const sql = {
-      text: "SELECT * FROM Article WHERE id = $1",
+      text: "SELECT * FROM Article WHERE id = $1;",
       values: [id]
     };
     const result = await pool.query(sql);
@@ -111,7 +112,7 @@ const articleDataMapper = {
   // Supprime une annonce par son id
   deleteOneArticleById: async (id) => {
     const sql = {
-      text: "DELETE FROM Article WHERE id = $1",
+      text: "DELETE FROM Article WHERE id = $1;",
       values: [id]
     };
     const result = await pool.query(sql);
@@ -124,6 +125,34 @@ const articleDataMapper = {
       console.log("Aucune Annonce correspondante dans la base de données");
 
     }
-  }
+  },
+  // Associe un manga à un article par la table de relation manga_has_article
+  associateOneMangaToOneArticle: async (code_isbn, article_id) => {
+    const sql = {
+      text: "INSERT INTO manga_has_article (manga_code_isbn, article_id)VALUES ($1, $2) RETURNING*;",
+      values: [code_isbn, article_id]
+    };
+    const result = await pool.query(sql);
+    if (!result.rowCount) {
+      throw new Error("Aucune association trouvée dans la base de données");
+    }
+    return result.rows[0];
+  },
+
+  // Retourne les articles associés à un manga
+  findArticlesByManga : async (code_isbn) => {
+    const sql = {
+      text :"SELECT article.* FROM article JOIN manga_has_article ON article.id = manga_has_article.article_id WHERE manga_has_article.manga_code_isbn = $1;",
+      values: [code_isbn]
+    };
+
+    const result = await pool.query(sql);
+    if (result.rows.length === 0) {
+      throw new Error("Aucune association trouvée dans la base de données");
+    }
+    return result.rows;
+  },
+
 };
+
 module.exports = articleDataMapper;

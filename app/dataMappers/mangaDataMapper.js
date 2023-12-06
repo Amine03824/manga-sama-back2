@@ -1,15 +1,17 @@
 const {pool} = require('../config/database');
 
 const mangaDataMapper = {
+
   // Récupère tous les mangas de la base de données
   findAllMangas: async () => {
-    const sql = "SELECT * FROM manga ORDER BY title ASC";
+    const sql = "SELECT * FROM manga ORDER BY title ASC;";
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucun manga trouvé dans la base de données");
     }
     return result.rows;
   },
+  
   // Insère un nouveau manga dans la base de données
   insertOneManga: async ({
     code_isbn,
@@ -91,7 +93,7 @@ const mangaDataMapper = {
   // Récupère un manga par son code isbn
   findOneMangaById: async (code_isbn) => {
     const sql = {
-      text: "SELECT * FROM manga WHERE code_isbn = $1",
+      text: "SELECT * FROM manga WHERE code_isbn = $1;",
       values: [code_isbn]
     };
     const result = await pool.query(sql);
@@ -104,7 +106,7 @@ const mangaDataMapper = {
   // Supprime un manga par son code isbn
   deleteOneMangaById: async (code_isbn) => {
     const sql = {
-      text: "DELETE FROM manga WHERE code_isbn = $1",
+      text: "DELETE FROM manga WHERE code_isbn = $1;",
       values: [code_isbn]
     };
     const result = await pool.query(sql);

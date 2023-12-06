@@ -1,17 +1,19 @@
 const {pool} = require('../config/database');
 
 const categoryDataMapper = {
-  // Récupère tous les categorys de la base de données
-  findAllcategory: async () => {
-    const sql = "SELECT * FROM category ORDER BY id ASC";
+
+  // Récupère toutes les catégories de la base de données
+  findAllCategories: async () => {
+    const sql = "SELECT * FROM category ORDER BY id ASC;";
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucun category trouvé dans la base de données");
     }
     return result.rows;
   },
-  // Insère un nouveau category dans la base de données
-  insertOnecategory: async ({
+  
+  // Insère une nouvelle catégorie dans la base de données
+  insertOneCategory: async ({
     category_name
   }) => 
   {
@@ -27,8 +29,8 @@ const categoryDataMapper = {
     return result.rows[0];
   },
 
-  // Met à jour les informations d'un categorie dans la base de données
-  updateOnecategory: async ({
+  // Met à jour les informations d'un catégorie dans la base de données
+  updateOneCategory: async ({
     id,
     category_name
   }) => {
@@ -36,9 +38,8 @@ const categoryDataMapper = {
       text: `
       UPDATE category
       SET
-      category_name = $2,
-      WHERE
-        id = $1
+      category_name = $2
+      WHERE id = $1
       RETURNING *;
     `,
       values: [
@@ -56,9 +57,9 @@ const categoryDataMapper = {
   },
 
   // Récupère un categorie par son id
-  findOnecategoryById: async (id) => {
+  findOneCategoryById: async (id) => {
     const sql = {
-      text: "SELECT * FROM category WHERE id = $1",
+      text: "SELECT * FROM category WHERE id = $1;",
       values: [id]
     };
     const result = await pool.query(sql);
@@ -69,9 +70,9 @@ const categoryDataMapper = {
   },
 
   // Supprime un categorie par son code id
-  deleteOnecategoryById: async (id) => {
+  deleteOneCategoryById: async (id) => {
     const sql = {
-      text: "DELETE FROM category WHERE id = $1",
+      text: "DELETE FROM category WHERE id = $1;",
       values: [id]
     };
     const result = await pool.query(sql);

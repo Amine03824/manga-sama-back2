@@ -4,13 +4,13 @@ const roleController = {
   // Récupère toutes les roles d'un utilisateur de la base de données
   getAllRoles: async (request, response, next) => {
     try {
-      const role = await roleDataMapper.findAllRoles();
-      if (!role) {
+      const roles = await roleDataMapper.findAllRoles();
+      if (!roles) {
         return next();
       }
       response.json({
         status: 200,
-        role
+        roles
       });
     } catch (error) {
       console.log(error);
@@ -73,8 +73,10 @@ const roleController = {
 
   // Récupère un rôle par son id
   getOneRoleById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+
+  
       const role = await roleDataMapper.findOneRoleById(id);
       if (!role) {
         // Aucun role trouvé, renvoyer une réponse 404 Not Found
@@ -104,11 +106,11 @@ const roleController = {
   // Modifie un rôle par son id
   modifyOneRoleById : async (request, response) => {
     try {
+      const { id } = request.params;
+
       const {
         role_name
       } = request.body;
-
-      const {id} = request.params;
       
       if (!role_name) {
         return response.json({
@@ -154,8 +156,9 @@ const roleController = {
 
   // Supprime un rôle par son code id
   removeOneRoleById: async (request, response) => {
-    const { id } = request.params;
     try {
+      const { id } = request.params;
+
       const role = await roleDataMapper.deleteOneRoleById(id);
       if (!role) {
         // Aucun rôle trouvé, renvoyer une réponse 404 Not Found

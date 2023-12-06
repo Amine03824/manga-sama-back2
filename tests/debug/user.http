@@ -1,0 +1,48 @@
+// Récuéprer tous les utilisateurs .getAllUsers
+GET  http://localhost:3000/user HTTP/1.1
+
+###
+// Ajouter un utilisateur .createOneUser
+POST  http://localhost:3000/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "lastname": "Emmanuel",
+  "firstname": "Macron",
+  "pseudo": "vivelafrance77",
+  "birthdate": "1901-05-10",
+  "address": "",
+  "zip_code": "",
+  "city": "Tunis",
+  "phone_number": "",
+  "email": "lélysée@ilfaitfroid.com",
+  "password": "jmJeanLuc<3"
+}
+
+ // erreur sans les quotes alors que c'est du int
+
+###
+// Récupérer les infos d'un utilisateur par son ID .getOneUserById
+GET http://localhost:3000/user/1 HTTP/1.1
+
+###
+// Modifier les infos d'un utilisateur par son ID .getOneUserById
+PUT  http://localhost:3000/user/6 HTTP/1.1
+Content-Type: application/json
+
+{
+  "lastname": "Emmanuel",
+  "firstname": "Macroute",
+  "pseudo": "jEsUiSLePrEsiDeNt gngngna",
+  "birthdate": "1945-05-10",
+  "address": "",
+  "zip_code": "",
+  "city": "",
+  "phone_number": "",
+  "email": "",
+  "password": "cornin18"
+}
+
+###
+// Supprimer un manga .removeOneMangaById
+DELETE  http://localhost:3000/user/6 HTTP/1.1
