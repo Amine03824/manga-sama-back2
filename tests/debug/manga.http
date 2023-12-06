@@ -19,12 +19,13 @@ Content-Type: application/json
 }
 ###
 // Obtenir les informations d'un manga .getOneMangaById
-GET http://localhost:3000/manga/9782871294146 HTTP/1.1
+GET http://localhost:3000/manga/9782368529904 HTTP/1.1
 
 ###
 // Route d'API d'insertion d'un nouveau manga en base de données .getMangaInfos
-POST http://localhost:3000/manga/9782871294146 HTTP/1.1
-// TODO: à faire marcher  
+GET http://localhost:3000/manga/API/9782505000327  HTTP/1.1
+
+
 ###
 // Modifier un manga .modifyOneMangaById
 PUT  http://localhost:3000/manga/9782871294146 HTTP/1.1
@@ -43,4 +44,4 @@ Content-Type: application/json
 
 ###
 // Supprimer un manga .removeOneMangaById
-DELETE  http://localhost:3000/manga/293820283020 HTTP/1.1
+DELETE  http://localhost:3000/manga/9782505000327 HTTP/1.1

@@ -36,8 +36,10 @@ const categoryController = {
       if (
         !category_name
       ) {
-        return response.status(400).json({ error: "Paramètre manquant dans le corps de la requête HTTP" });
-      }
+        return response.json({
+          status : 400, 
+          error: "Paramètre manquant dans le corps de la requête HTTP" 
+        });      }
       const newCategory = await categoryDataMapper.insertOneCategory({
         category_name,
       });
@@ -76,13 +78,6 @@ const categoryController = {
   getOneCategoryById: async (request, response) => {
     try {
       const { id } = request.params;
-      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
-      if (typeof id !== "number") {
-        return response.json({
-          status : 400,
-          error: "Invalid type : id number be a ???? Number voilà bravo"
-        });
-      }
       const category = await categoryDataMapper.findOneCategoryById(id);
       if (!category) {
         // Aucun category trouvé, renvoyer une réponse 404 Not Found
@@ -113,14 +108,6 @@ const categoryController = {
   modifyOneCategoryById : async (request, response) => {
     try {
       const { id } = request.params;
-      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
-      if (typeof id !== "number") {
-        return response.json({
-          status : 400,
-          error: "Invalid type : id number be a ???? Number voilà bravo"
-        });
-      }
-  
       const {
         category_name
       } = request.body;
@@ -171,13 +158,6 @@ const categoryController = {
   removeOneCategoryById: async (request, response) => {
     try {
       const { id } = request.params;
-      // Vérification du type de l'ID pour éviter l'appel inutile à la base de données
-      if (typeof id !== "number") {
-        return response.json({
-          status : 400,
-          error: "Invalid type : id number be a ???? Number voilà bravo"
-        });
-      }
       const category = await categoryDataMapper.deleteOneCategoryById(id);
       if (!category) {
         // Aucun catégorie trouvée, renvoyer une réponse 404 Not Found

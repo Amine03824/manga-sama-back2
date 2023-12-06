@@ -45,7 +45,10 @@ const articleController = {
         !image_url ||
         !condition_id
       ) {
-        return response.status(400).json({ error: "Paramètre manquant dans le corps de la requête HTTP" });
+        return response.json({
+          status : 400, 
+          error: "Paramètre manquant dans le corps de la requête HTTP" 
+        });
       }
       const newArticle = await articleDataMapper.insertOneArticle({
         title,
@@ -211,7 +214,10 @@ const articleController = {
         }
       });
     }
-  }
+  },
+
+
+
 };
 
 module.exports = articleController;

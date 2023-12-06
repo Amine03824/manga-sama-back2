@@ -8,7 +8,7 @@ POST  http://localhost:3000/article HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Les aventures de Tintin au Congo",
+  "title": "Les aventures de Tintin au marché",
   "description": "Tintin explore des thèmes d'amitié interculturelle, de respect de l'environnement et de justice sociale, tout en conservant l'esprit d'aventure qui caractérise les œuvres de Tintin.",
   "price": 20333,
   "image_url": "Hergé Katimasu",
@@ -16,15 +16,15 @@ Content-Type: application/json
 }
 ###
 // Obtenir les informations d'une annonce .getOneArticleById
-GET http://localhost:3000/article/ HTTP/1.1
+GET http://localhost:3000/article/10 HTTP/1.1
 
 ###
 // Modifier une annonce .modifyOneArticleById
-PUT  http://localhost:3000/article/1 HTTP/1.1
+PUT  http://localhost:3000/article/10 HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Les aventures de Tintin au Congo",
+  "title": "Les aventures de Tintin au bled",
   "description": "Tintin explore des thèmes d'amitié interculturelle, de respect de l'environnement et de justice sociale, tout en conservant l'esprit d'aventure qui caractérise les œuvres de Tintin.",
   "price": 20333,
   "image_url": "Hergé Katimasu",
@@ -33,4 +33,4 @@ Content-Type: application/json
 
 ###
 // Supprimer une annonce .removeOneArticleById
-DELETE  http://localhost:3000/article/ HTTP/1.1
+DELETE  http://localhost:3000/article/10 HTTP/1.1

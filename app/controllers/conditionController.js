@@ -36,7 +36,10 @@ const conditionController = {
       if (
         !condition_name
       ) {
-        return response.status(400).json({ error: "Paramètre manquant dans le corps de la requête HTTP" });
+        return response.json({
+          status : 400, 
+          error: "Paramètre manquant dans le corps de la requête HTTP" 
+        });
       }
       const newCondition = await conditionDataMapper.insertOneCondition({
         condition_name,

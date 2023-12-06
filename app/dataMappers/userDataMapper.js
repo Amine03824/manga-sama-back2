@@ -165,7 +165,7 @@ const userDataMapper = {
       phone_number = $9,
       email = $10,
       password = $11,
-      role_id = $12,
+      role_id = $12
       WHERE id = $1
       RETURNING *;`,
       values: [

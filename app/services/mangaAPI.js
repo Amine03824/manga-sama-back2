@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 const path = require("path");
 
 // Fonction principale asynchrone
-async function getMangaInfo(isbn) {
+async function mangaAPI(isbn) {
   // Vérifier si l'isbn est fourni
   if (!isbn) {
     console.error("Veuillez fournir un isbn en tant qu'argument.");
@@ -115,7 +115,7 @@ async function getMangaInfo(isbn) {
 
         // Vérifier si l'image existe déjà localement
         if (fs.existsSync(imagePath)) {
-          return `/images/${isbn}-${model}.jpg`; // Retourner le chemin local de l'image
+          return `/images/${isbn}.jpg`; // Retourner le chemin local de l'image
         }
 
         const downloadedImagePath = await downloadCoverImage(isbn, model);
@@ -184,15 +184,16 @@ async function getMangaInfo(isbn) {
       cover_url: localImageUrl,
       category_id: categoryId
     };
+    
   }
 
   // Exemple d'utilisation de la fonction pour extraire les informations du livre
   const extractedBookInfo = await extractBookInfo();
-
+  return  extractedBookInfo;
   // Afficher les informations du livre dans la console
-  console.log("Informations du livre :", extractedBookInfo);
+  // console.log("Informations du livre :", extractedBookInfo);
 }
 
 module.exports = {
-  getMangaInfo
+  mangaAPI
 };

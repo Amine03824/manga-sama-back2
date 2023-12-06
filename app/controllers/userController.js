@@ -233,14 +233,14 @@ const userController = {
         typeof lastname !== "string" ||
         typeof firstname !== "string" ||
         typeof pseudo !== "string" ||
-        !(birthdate instanceof Date) ||
+        typeof birthdate !== "string" ||
         typeof address !== "string" ||
         typeof zip_code !== "string" ||
         typeof city !== "string" ||
-        typeof phone_number !== "number" ||
+        typeof phone_number !== "string" ||
         typeof email !== "string" ||
-        typeof password !== "string" ||
-        typeof role_id !== "number"
+        typeof password !== "string"|| 
+        typeof role_id !== "number" 
       ) {
         return response.json({
           status: 400,

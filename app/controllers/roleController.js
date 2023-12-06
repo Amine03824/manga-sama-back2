@@ -35,7 +35,10 @@ const roleController = {
       if (
         !role_name
       ) {
-        return response.status(400).json({ error: "Paramètre manquant dans le corps de la requête HTTP" });
+        return response.json({
+          status : 400, 
+          error: "Paramètre manquant dans le corps de la requête HTTP" 
+        });
       }
       const newRole = await roleDataMapper.insertOneRole({
         role_name,

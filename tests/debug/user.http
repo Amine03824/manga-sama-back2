@@ -9,13 +9,13 @@ Content-Type: application/json
 {
   "lastname": "Emmanuel",
   "firstname": "Macron",
-  "pseudo": "vivelafrance77",
+  "pseudo": "vivela",
   "birthdate": "1901-05-10",
   "address": "",
   "zip_code": "",
   "city": "Tunis",
   "phone_number": "",
-  "email": "lélysée@ilfaitfroid.com",
+  "email": "lolololo@ilfa.com",
   "password": "jmJeanLuc<3"
 }
 
@@ -27,7 +27,24 @@ GET http://localhost:3000/user/1 HTTP/1.1
 
 ###
 // Modifier les infos d'un utilisateur par son ID .getOneUserById
-PUT  http://localhost:3000/user/6 HTTP/1.1
+PUT  http://localhost:3000/user/5 HTTP/1.1
+Content-Type: application/json
+
+{
+  "lastname": "lolo",
+  "firstname": "Macroute",
+  "pseudo": "jEsUiSLePrEsiDeNt gngngna",
+  "birthdate": "1945-05-10",
+  "address": "",
+  "zip_code": "",
+  "city": "",
+  "phone_number": "",
+  "email": "lolololo@ila.com",
+  "password": "cornin18"
+}
+###
+// Modifie les droits (rôle) d'un utilisateur par son ID .adminModifyOneUserById
+PUT  http://localhost:3000/user/admin/5 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -39,10 +56,12 @@ Content-Type: application/json
   "zip_code": "",
   "city": "",
   "phone_number": "",
-  "email": "",
-  "password": "cornin18"
+  "email": "lolololo@ila.com",
+  "password": "cornin18",
+  "role_id" : 2
 }
 
+
 ###
-// Supprimer un manga .removeOneMangaById
-DELETE  http://localhost:3000/user/6 HTTP/1.1
+// Supprimer un utilisateur .removeOneUserById
+DELETE  http://localhost:3000/user/5 HTTP/1.1

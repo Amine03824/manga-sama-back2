@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS "article" (
   "title" VARCHAR(255) NOT NULL,
   "description" TEXT NOT NULL,
   "price" INT,
-  "transaction_id" UUID DEFAULT uuid_generate_v4(),
+  "transaction_id" VARCHAR(36),
   "date_transaction" DATE,
   "state_completion" VARCHAR(30),
   "image_url" VARCHAR(255),

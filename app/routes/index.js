@@ -3,33 +3,34 @@ const express = require("express");
 const router = express.Router();
 
 // Import des sous routeurs
-const articleRouter = require('./articles'); 
-const categoryRouter = require('./categories');
-const userRouter = require('./users');
-const mangaRouter = require('./mangas');
-const conditionRouter = require('./conditions');
-const roleRouter = require('./roles');
-// const imageRouter = resquire('./images'); //TODO! faire les images
+const articlesRouter = require('./articles'); 
+const categoriesRouter = require('./categories');
+const usersRouter = require('./users');
+const mangasRouter = require('./mangas');
+const conditionsRouter = require('./conditions');
+const rolesRouter = require('./roles');
+const imagesRouter = require('./images'); 
 
 // Routes correspondant aux annonces
-router.use('/article', articleRouter);
+router.use('/article', articlesRouter);
 
 // Routes correspondant aux catégories
-router.use('/category', categoryRouter);
-
+router.use('/category', categoriesRouter);
 
 // Routes correspondant aux utilisateurs
-router.use('/user', userRouter);
-
+router.use('/user', usersRouter);
 
 //  Routes correspondant aux mangas dans la base de données
-router.use('/manga', mangaRouter);
+router.use('/manga', mangasRouter);
 
 // Routes correspondant à l'état des mangas
-router.use('/condition', conditionRouter);
+router.use('/condition', conditionsRouter);
 
 // Routes correspondant aux rôles utilisateur
-router.use('/role', roleRouter);
+router.use('/role', rolesRouter);
+
+// Routes correspondant aux des couvertures de mangas
+router.use('/images', imagesRouter);
 
 module.exports = router;
 

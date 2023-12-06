@@ -17,7 +17,6 @@ const articleDataMapper = {
 
   // Insère une nouvelle annonce dans la base de données
   insertOneArticle: async ({
-    id,
     title,
     description,
     price,
@@ -28,9 +27,8 @@ const articleDataMapper = {
     condition_id
   }) => {
     const sql = {
-      text: "INSERT INTO Article (id, title, description, price, transaction_id, date_transaction, state_completion, image_url, condition_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
+      text: "INSERT INTO Article (title, description, price, transaction_id, date_transaction, state_completion, image_url, condition_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
       values: [
-        id,
         title,
         description,
         price,
@@ -126,6 +124,7 @@ const articleDataMapper = {
 
     }
   },
+  
   // Associe un manga à un article par la table de relation manga_has_article
   associateOneMangaToOneArticle: async (code_isbn, article_id) => {
     const sql = {

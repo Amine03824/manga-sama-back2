@@ -13,9 +13,12 @@ router.route('/')
 // Routes correspondant à un manga spécifique
 router.route('/:isbn')
   .get(mangaController.getOneMangaById)
-  .post(mangaController.getMangaInfos) // Route d'API d'insertion d'un nouveau manga en base de données
   .put(mangaController.modifyOneMangaById)
   .delete(mangaController.removeOneMangaById);   
+
+// Route d'API d'insertion d'un nouveau manga en base de données
+router.route('/API/:isbn')
+  .get(mangaController.getMangaInfos); 
 
 // Export
 module.exports = router;
