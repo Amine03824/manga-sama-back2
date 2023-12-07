@@ -1,5 +1,5 @@
 
-// Récuéprer tous les mangas .getAllMangas
+// Récupéprer tous les mangas .getAllMangas
 GET  http://localhost:3000/manga HTTP/1.1
 
 ###

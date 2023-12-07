@@ -13,7 +13,15 @@
 
   // }  
   
-
+  // Récupère toutes les Annonces de la base de données
+  findAllArticles: async () => {
+    const sql =  "SELECT * FROM Article ORDER BY title ASC;";
+    const result = await pool.query(sql);
+    if (!result.rowCount) {
+      throw new Error("Aucune Annonces trouvées dans la base de données");
+    }
+    return result.rows;
+  },
   
   
   // Met à jour le titre d'un manga par son code isbn

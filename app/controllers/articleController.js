@@ -216,7 +216,136 @@ const articleController = {
     }
   },
 
+  // Associe un manga à un article par la table de relation manga_has_article
+  linkOneMangaToOneArticle: async (request, response) => {
+    try {
+      const { isbn, articleId } = request.params;
 
+      if (!isbn || !articleId) {
+        return response.json({
+          status: 400,
+          error: "Paramètre manquant dans les paramètres de la requête HTTP",
+        });
+      }
+
+      const code_isbn = isbn;
+      
+      const associationResult = await articleDataMapper.associateOneMangaToOneArticle(code_isbn, articleId);
+
+      return response.json({
+        status: 200,
+        success: true,
+        message: "Association réussie entre le manga et l'article",
+        associationResult,
+      });
+    } catch (error) {
+      console.error(error);
+      return response.json({
+        status: 500,
+        success: false,
+        error: {
+          message: error.toString(),
+        },
+      });
+    }
+  },
+
+  // Retourne les articles associés à un manga
+  getArticlesByManga : async (request, response) => {
+
+    try {
+      const { isbn } = request.params;
+      if (!isbn) {
+        return response.json({
+          status: 400,
+          error: "Paramètre manquant dans le corps de la requête HTTP",
+        });
+      }
+
+
+      const articles = await articleDataMapper.findArticlesByManga(isbn);
+
+      return response.json({
+        status: 200,
+        success: true,
+        articles,
+      });
+    } catch (error) {
+      console.log(error);
+      return response.json({
+        status: 500,
+        success: false,
+        error: {
+          message: error.toString(),
+        },
+      });
+    }
+  },
+
+  // Associe un manga à un article par la table de relation manga_has_article
+  linkOneUserToOneArticle: async (request, response) => {
+    try {
+      const { userId, articleId } = request.params;
+  
+      if (!userId || !articleId) {
+        return response.json({
+          status: 400,
+          error: "Paramètre manquant dans les paramètres de la requête HTTP",
+        });
+      }
+  
+        
+      const associationResult = await articleDataMapper.associateOneUserToOneArticle(userId, articleId);
+  
+      return response.json({
+        status: 200,
+        success: true,
+        message: "Association réussie entre le manga et l'article",
+        associationResult,
+      });
+    } catch (error) {
+      console.error(error);
+      return response.json({
+        status: 500,
+        success: false,
+        error: {
+          message: error.toString(),
+        },
+      });
+    }
+  },
+  
+  // Retourne les articles associés à un manga
+  getArticlesByUser : async (request, response) => {
+  
+    try {
+      const { userId } = request.params;
+      if (!userId) {
+        return response.json({
+          status: 400,
+          error: "Paramètre manquant dans le corps de la requête HTTP",
+        });
+      }
+  
+  
+      const articles = await articleDataMapper.findArticlesByUser(userId);
+  
+      return response.json({
+        status: 200,
+        success: true,
+        articles,
+      });
+    } catch (error) {
+      console.log(error);
+      return response.json({
+        status: 500,
+        success: false,
+        error: {
+          message: error.toString(),
+        },
+      });
+    }
+  },
 
 };
 

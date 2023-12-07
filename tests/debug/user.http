@@ -7,16 +7,16 @@ POST  http://localhost:3000/user HTTP/1.1
 Content-Type: application/json
 
 {
-  "lastname": "Anthony",
-  "firstname": "Trujillo",
-  "pseudo": "anthony_theversus",
-  "birthdate": "1901-05-10",
+  "lastname": "Aminos",
+  "firstname": "Nodormir",
+  "pseudo": "jaimelesbonssteaks",
+  "birthdate": "1999-05-10",
   "address": "",
   "zip_code": "",
-  "city": "dunkerque",
+  "city": "taboulistan",
   "phone_number": "",
-  "email": "qsdqsdqsd@ilqdqsdfa.com",
-  "password": "jmEsLint<3"
+  "email": "qsd@ilqdqsdfa.com",
+  "password": "houmouss"
 }
 
  // erreur sans les quotes alors que c'est du int
