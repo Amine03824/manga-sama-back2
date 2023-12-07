@@ -1,5 +1,5 @@
 
-// Récuéprer toutes les annonces .getAllArticles
+// Récupéprer toutes les annonces .getAllArticles
 GET  http://localhost:3000/article HTTP/1.1
 
 ###
@@ -33,4 +33,4 @@ Content-Type: application/json
 
 ###
 // Supprimer une annonce .removeOneArticleById
-DELETE  http://localhost:3000/article/10 HTTP/1.1
+DELETE  http://localhost:3000/article/19 HTTP/1.1

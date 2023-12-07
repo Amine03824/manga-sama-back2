@@ -5,15 +5,29 @@ const {
 
 const articleDataMapper = {
 
-  // Récupère toutes les Annonces de la base de données
+  // Récupère toutes les Annonces de la base de données avec les informations du manga associé
   findAllArticles: async () => {
-    const sql = "SELECT * FROM Article ORDER BY title ASC;";
+    // "user" ou public.user (utilisateur du site de mangas )= / = user (utilisateur postgres)
+    const sql = `
+    SELECT article.*, manga_has_article.manga_code_isbn, manga.*, "user".*
+    FROM article
+    INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
+    INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
+    INNER JOIN user_has_article ON article.id = user_has_article.article_id
+    INNER JOIN "user" ON user_has_article.user_id = "user".id
+    ORDER BY article.title ASC
+    ;`;
+
+    console.log("SQL Query:", sql); // On peut console.log le sql!
+
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucune Annonces trouvées dans la base de données");
     }
+
     return result.rows;
   },
+  
 
   // Insère une nouvelle annonce dans la base de données
   insertOneArticle: async ({
@@ -145,6 +159,33 @@ const articleDataMapper = {
       values: [code_isbn]
     };
 
+    const result = await pool.query(sql);
+    if (result.rows.length === 0) {
+      throw new Error("Aucune association trouvée dans la base de données");
+    }
+    return result.rows;
+  },
+
+  // Associe un manga à un article par la table de relation manga_has_article
+  associateOneUserToOneArticle : async (user_id, article_id) => {
+    const sql = {
+      text: "INSERT INTO user_has_article (user_id, article_id)VALUES ($1, $2) RETURNING*;",
+      values: [user_id, article_id]
+    };
+    const result = await pool.query(sql);
+    if (!result.rowCount) {
+      throw new Error("Aucune association trouvée dans la base de données");
+    }
+    return result.rows[0];
+  },
+  
+  // Retourne les articles associés à un manga
+  findArticlesByUser : async (user_id) => {
+    const sql = {
+      text :"SELECT article.* FROM article JOIN user_has_article ON article.id = user_has_article.article_id WHERE user_has_article.user_id = $1;",
+      values: [user_id]
+    };
+  
     const result = await pool.query(sql);
     if (result.rows.length === 0) {
       throw new Error("Aucune association trouvée dans la base de données");

@@ -11,6 +11,13 @@ const conditionsRouter = require('./conditions');
 const rolesRouter = require('./roles');
 const imagesRouter = require('./images'); 
 
+// Import du routeur des associations
+const associationsRouter = require('./associations');
+
+// Import du routeur d'administration
+const adminRouter = require('./admin');
+
+
 // Routes correspondant aux annonces
 router.use('/article', articlesRouter);
 
@@ -31,6 +38,14 @@ router.use('/role', rolesRouter);
 
 // Routes correspondant aux des couvertures de mangas
 router.use('/images', imagesRouter);
+
+
+// Routes correspondant aux associations
+router.use('/associate', associationsRouter);
+
+// Routes d'administration
+router.use('/admin', adminRouter);
+
 
 module.exports = router;
 
