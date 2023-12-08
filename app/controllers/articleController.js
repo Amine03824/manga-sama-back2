@@ -89,10 +89,11 @@ const articleController = {
   // Récupère une annonce par son code id
   getOneArticleById: async (request, response) => {
     try {
+
       const { id } = request.params;
 
-  
       const article = await articleDataMapper.findOneArticleById(id);
+
       if (!article) {
         // Aucune annonce trouvé, renvoyer une réponse 404 Not Found
         return response.json({
@@ -151,12 +152,9 @@ const articleController = {
 
       if (modifiedArticle) {
       // La modification s'est bien déroulée
-        return response.json({
-          status: 201,
-          success: true,
-          message: "L'annonce a été modifié avec succès",
-          article: modifiedArticle,
-        });
+        return response.status(201).json(
+          modifiedArticle
+        );
 
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
@@ -185,7 +183,6 @@ const articleController = {
     try {
       const { id } = request.params;
 
-  
       const article = await articleDataMapper.deleteOneArticleById(id);
       if (!article) {
         // Aucune annonce trouvée, renvoyer une réponse 404 Not Found
@@ -227,13 +224,9 @@ const articleController = {
       const code_isbn = isbn;
       
       const associationResult = await articleDataMapper.associateOneMangaToOneArticle(code_isbn, articleId);
+      // Association réussie entre le manga et l'article
+      return response.status(200).json( associationResult );
 
-      return response.json({
-        status: 200,
-        success: true,
-        message: "Association réussie entre le manga et l'article",
-        associationResult,
-      });
     } catch (error) {
       console.error(error);
       return response.json({
@@ -258,14 +251,17 @@ const articleController = {
         });
       }
 
-
       const articles = await articleDataMapper.findArticlesByManga(isbn);
+      // Si aucun article n'est associé à ce manga
+      if(!articles){
+        return response.json({
+          stauts : 404,
+          error : "Aucun article associé à ce manga"
+        });
+      }
+      // Retourne les articles associés à ce manga
+      return response.status(200).json( articles );
 
-      return response.json({
-        status: 200,
-        success: true,
-        articles,
-      });
     } catch (error) {
       console.log(error);
       return response.json({
@@ -289,16 +285,17 @@ const articleController = {
           error: "Paramètre manquant dans les paramètres de la requête HTTP",
         });
       }
-  
         
       const associationResult = await articleDataMapper.associateOneUserToOneArticle(userId, articleId);
-  
-      return response.json({
-        status: 200,
-        success: true,
-        message: "Association réussie entre le manga et l'article",
-        associationResult,
-      });
+      if(!associationResult){
+        return response.json({
+          stauts : 404, // Peut être 424 // TODO! Check
+          error : "L'association entre l'utilisateur et son article à échoué"
+        });
+      }
+
+      // Association réussie entre le manga et l'article
+      return response.status.json( associationResult);
     } catch (error) {
       console.error(error);
       return response.json({
@@ -311,7 +308,7 @@ const articleController = {
     }
   },
   
-  // Retourne les articles associés à un manga
+  // Retourne les articles associés à un untilisateur
   getArticlesByUser : async (request, response) => {
   
     try {
@@ -325,12 +322,15 @@ const articleController = {
   
   
       const articles = await articleDataMapper.findArticlesByUser(userId);
-  
-      return response.json({
-        status: 200,
-        success: true,
-        articles,
-      });
+      // Ce cas d'usage ne devrait pas se présenter
+      // if (!articles){
+      //   return response.json({
+      //     stauts : 404,
+      //     error : "Aucun article n'est associé à l'utilisateur"
+      //   });
+      // }
+      return response.status(200).json(articles);
+
     } catch (error) {
       console.log(error);
       return response.json({

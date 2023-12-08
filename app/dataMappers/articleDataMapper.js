@@ -1,21 +1,20 @@
-
 const {
   pool
 } = require('../config/database');
 
 const articleDataMapper = {
 
-  // Récupère toutes les Annonces de la base de données avec les informations du manga associé
+  // Récupère toutes les Annonces de la base de données et l'utilisateur lié avec les informations du manga associé de façon décroissante
   findAllArticles: async () => {
     // "user" ou public.user (utilisateur du site de mangas )= / = user (utilisateur postgres)
     const sql = `
-    SELECT article.*, manga_has_article.manga_code_isbn, manga.*, "user".*
+    SELECT article.id AS article_id,article.*, manga_has_article.manga_code_isbn, manga.*,"user".*
     FROM article
     INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
     INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
     INNER JOIN user_has_article ON article.id = user_has_article.article_id
     INNER JOIN "user" ON user_has_article.user_id = "user".id
-    ORDER BY article.title ASC
+    ORDER BY article.created_at ASC
     ;`;
 
     // console.log("SQL Query:", sql); // On peut console.log le sql!
@@ -28,7 +27,7 @@ const articleDataMapper = {
     const formattedArticles = result.rows.map(article => {
       return {
         article: {
-          id: article.id,
+          id: article.article_id,
           title: article.title,
           description: article.description,
           price: article.price,
@@ -48,6 +47,7 @@ const articleDataMapper = {
         },
 
         user: {
+          id:article.id,
           lastname: article.lastname,
           firstname: article.firstname,
           pseudo: article.pseudo,
@@ -62,7 +62,7 @@ const articleDataMapper = {
       };
     });
 
-    return { articles: formattedArticles };
+    return formattedArticles ;
   },
   
 
