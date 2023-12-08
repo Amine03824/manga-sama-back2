@@ -33,4 +33,4 @@ Content-Type: application/json
 
 ###
 // Supprimer une annonce .removeOneArticleById
-DELETE  http://localhost:3000/article/19 HTTP/1.1
+DELETE  http://localhost:3000/article/20 HTTP/1.1

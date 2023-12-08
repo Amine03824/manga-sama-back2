@@ -9,10 +9,9 @@ const userController = {
       if (!users) {
         return next();
       }
-      response.json({
-        status: 200,
-        users,
-      });
+      response.status(200).json( 
+        users
+      );
     } catch (error) {
       console.log(error);
       return response.json({
@@ -118,11 +117,9 @@ const userController = {
           message: "Aucun utilisateur trouvé avec le code id spécifié",
         });
       }
-      return response.json({
-        status: 200,
-        success: true,
+      return response.status(200).json(
         user,
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({

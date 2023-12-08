@@ -8,10 +8,9 @@ const roleController = {
       if (!roles) {
         return next();
       }
-      response.json({
-        status: 200,
+      response.status(200).json(
         roles
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({
@@ -89,11 +88,9 @@ const roleController = {
           message: "Aucun rôle trouvé avec le code id spécifié"
         });
       }
-      return response.json({
-        status: 200,
-        success: true,
+      return response.status(200).json(
         role
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({

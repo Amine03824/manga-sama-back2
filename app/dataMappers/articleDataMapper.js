@@ -18,14 +18,51 @@ const articleDataMapper = {
     ORDER BY article.title ASC
     ;`;
 
-    console.log("SQL Query:", sql); // On peut console.log le sql!
+    // console.log("SQL Query:", sql); // On peut console.log le sql!
 
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucune Annonces trouvées dans la base de données");
     }
+    // Organise les résultats
+    const formattedArticles = result.rows.map(article => {
+      return {
+        article: {
+          id: article.id,
+          title: article.title,
+          description: article.description,
+          price: article.price,
+          transaction_id: article.transaction_id,
+          date_transaction: article.date_transaction,
+          state_completion: article.state_completion,
+          created_at: article.created_at,
+          updated_at: article.updated_at,
+        },
 
-    return result.rows;
+        manga: {
+          code_isbn: article.manga_code_isbn,
+          volume: article.volume,
+          year_publication: article.year_publication,
+          author: article.author,
+          cover_url: article.cover_url
+        },
+
+        user: {
+          lastname: article.lastname,
+          firstname: article.firstname,
+          pseudo: article.pseudo,
+          birthdate: article.birthdate,
+          address: article.address,
+          zip_code: article.zip_code,
+          city: article.city,
+          phone_number: article.phone_number,
+          email: article.email,
+          role_id: article.role_id
+        }
+      };
+    });
+
+    return { articles: formattedArticles };
   },
   
 
