@@ -86,9 +86,7 @@ const categoryController = {
           message: "Aucune catégorie trouvé avec le code id spécifié"
         });
       }
-      return response.json(
-        category
-      );
+      return response.json(category);
     } catch (error) {
       console.log(error);
       return response.json({
