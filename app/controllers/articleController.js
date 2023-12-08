@@ -9,11 +9,9 @@ const articleController = {
       if (!articles) {
         return next();
       }
-
-      response.json({
-        status: 200,
+      return response.status(200).json(
         articles
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({
@@ -103,11 +101,9 @@ const articleController = {
           message: "Aucune annonce trouvée avec le code id spécifié"
         });
       }
-      return response.json({
-        status: 200,
-        success: true,
+      return response.json(
         article
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({

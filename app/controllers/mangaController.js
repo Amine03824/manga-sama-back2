@@ -11,10 +11,9 @@ const mangaController = {
         return next();
       }
 
-      response.json({
-        status: 200,
+      response.json(
         mangas
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({
@@ -45,7 +44,7 @@ const mangaController = {
       try {
         // Récupère les informations du manga
         const mangaInfo = await mangaService.mangaAPI(isbn);
-        console.log(`Les infos du manga obtenues:`, mangaInfo );
+        console.log(`༼ つ ◕_◕ ༽つ l'API a marché on a chopé le manga`);
         
         if (mangaInfo) {
           // Insère les informations du manga en base de données
@@ -63,12 +62,7 @@ const mangaController = {
           if (insertedManga) {
             // La création s'est bien déroulée
             console.log("Le manga a été créé avec succès :", insertedManga);
-            return response.json({
-              status: 201,
-              success: true,
-              message: "Le manga a été créé avec succès",
-              manga: insertedManga
-            });
+            return response.status(201).json(insertedManga);
           } else {
             // Aucune ligne affectée, la création n'a pas été effectuée
             return response.json({
@@ -185,18 +179,12 @@ const mangaController = {
       const code_isbn = isbn;
       const manga = await mangaDataMapper.findOneMangaById(code_isbn);
       if (!manga) {
-        // Aucun manga trouvé, renvoyer une réponse 404 Not Found
-        return response.json({
-          status: 404,
-          success: false,
-          message: "Aucun manga trouvé avec le code isbn spécifié"
-        });
+        // Aucun manga trouvé, on tente de le trouver avec l'API et de l'insérer en DB
+        mangaController.getMangaInfos(code_isbn);
       }
-      return response.json({
-        status: 200,
-        success: true,
+      return response.json(
         manga
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({

@@ -9,10 +9,9 @@ const categoryController = {
       if (!categories) {
         return next();
       }
-      response.json({
-        status: 200,
+      response.json(
         categories
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({
@@ -87,11 +86,9 @@ const categoryController = {
           message: "Aucune catégorie trouvé avec le code id spécifié"
         });
       }
-      return response.json({
-        status: 200,
-        success: true,
+      return response.json(
         category
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({

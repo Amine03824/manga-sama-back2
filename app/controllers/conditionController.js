@@ -9,10 +9,9 @@ const conditionController = {
       if (!conditions) {
         return next();
       }
-      response.json({
-        status: 200,
+      response.status(200).json(
         conditions
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({
@@ -90,11 +89,9 @@ const conditionController = {
           message: "Aucun état trouvé avec le code id spécifié"
         });
       }
-      return response.json({
-        status: 200,
-        success: true,
+      return response.status(200).json(
         condition
-      });
+      );
     } catch (error) {
       console.log(error);
       return response.json({
