@@ -10,7 +10,7 @@ POST  http://localhost:3000/associate/article/manga/19/9782344020685 HTTP/1.1
 ###
 
 // Récupéprer toutes les annonces en lien avec un user particulier .getArticlesByUser
-GET  http://localhost:3000/associate/user/10/article HTTP/1.1
+GET  http://localhost:3000/associate/user/1/article HTTP/1.1
 
 ### 
 

@@ -190,4 +190,44 @@ module.exports = mangaDataMapper;
 
 
 
-
+ici on retrouve l'ancienne requete 
+SELECT 
+article.id AS a_id,
+article.title AS a_title,
+article.description AS a_description,
+article.price,
+article.transaction_id,
+article.date_transaction,
+article.state_completion,
+article.created_at,
+article.updated_at,
+"user".id AS u_id,
+"user".lastname,
+"user".firstname,
+"user".pseudo,
+"user".birthdate,
+"user".address,
+"user".zip_code,
+"user".city,
+"user".phone_number,
+"user".email,
+"user".role_id,
+"user".created_at AS u_created_at,
+"user".updated_at AS u_updated_at,
+manga.code_isbn AS m_code_isbn, 
+manga.title,
+manga.volume,
+manga.year_publication,
+manga.author,
+manga.description,
+manga.cover_url,
+manga.category_id,
+manga.created_at AS m_created_at,
+manga.updated_at AS m_updated_at
+FROM article
+INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
+INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
+INNER JOIN user_has_article ON article.id = user_has_article.article_id
+INNER JOIN "user" ON user_has_article.user_id = "user".id
+ORDER BY article.created_at ASC
+;`;

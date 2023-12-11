@@ -1,35 +1,44 @@
-const {
-  pool
-} = require('../config/database');
+const { pool } = require("../config/database");
 
 const articleDataMapper = {
-
   // Récupère toutes les Annonces de la base de données et l'utilisateur lié avec les informations du manga associé de façon décroissante
   findAllArticles: async () => {
     // "user" ou public.user (utilisateur du site de mangas )= / = user (utilisateur postgres)
     const sql = `
-    SELECT article.id AS article_id,article.*, manga_has_article.manga_code_isbn, manga.*,"user".*
-    FROM article
-    INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
-    INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
-    INNER JOIN user_has_article ON article.id = user_has_article.article_id
-    INNER JOIN "user" ON user_has_article.user_id = "user".id
-    ORDER BY article.created_at ASC
+    SELECT 
+    article.id AS a_id,
+    article.title AS a_title,
+    article.description AS a_description,
+    article.*,
+    "user".id AS u_id,
+    "user".*,
+    "user".created_at AS u_created_at,
+    "user".updated_at AS u_updated_at,
+    manga.code_isbn AS m_code_isbn, 
+    manga.*,
+    manga.created_at AS m_created_at,
+    manga.updated_at AS m_updated_at
+  FROM article
+  INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
+  INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
+  INNER JOIN user_has_article ON article.id = user_has_article.article_id
+  INNER JOIN "user" ON user_has_article.user_id = "user".id
+  ORDER BY article.created_at ASC
     ;`;
 
-    // console.log("SQL Query:", sql); // On peut console.log le sql!
+    console.log("SQL Query:", sql); // On peut console.log le sql!
 
     const result = await pool.query(sql);
     if (!result.rowCount) {
       throw new Error("Aucune Annonces trouvées dans la base de données");
     }
     // Organise les résultats
-    const formattedArticles = result.rows.map(article => {
+    const formattedArticles = result.rows.map((article) => {
       return {
         article: {
-          id: article.article_id,
-          title: article.title,
-          description: article.description,
+          id: article.a_id,
+          title: article.a_title,
+          description: article.a_description,
           price: article.price,
           transaction_id: article.transaction_id,
           date_transaction: article.date_transaction,
@@ -39,15 +48,20 @@ const articleDataMapper = {
         },
 
         manga: {
-          code_isbn: article.manga_code_isbn,
+          code_isbn: article.m_code_isbn,
+          title: article.title,
           volume: article.volume,
           year_publication: article.year_publication,
           author: article.author,
-          cover_url: article.cover_url
+          description: article.description,
+          cover_url: article.cover_url,
+          category_id : article.category_id,
+          created_at : article.m_created_at,
+          updated_at : article.m_updated_at,
         },
 
         user: {
-          id:article.id,
+          id: article.id,
           lastname: article.lastname,
           firstname: article.firstname,
           pseudo: article.pseudo,
@@ -57,14 +71,17 @@ const articleDataMapper = {
           city: article.city,
           phone_number: article.phone_number,
           email: article.email,
-          role_id: article.role_id
-        }
+          role_id: article.role_id,
+          created_at : article.u_created_at,
+          updated_at : article.u_updated_at
+        },
       };
     });
-
-    return formattedArticles ;
+    const regroupedArticle = articleDataMapper.regroupArticle(formattedArticles);
+    return regroupedArticle;
   },
-  
+
+
 
   // Insère une nouvelle annonce dans la base de données
   insertOneArticle: async ({
@@ -75,7 +92,7 @@ const articleDataMapper = {
     date_transaction,
     state_completion,
     image_url,
-    condition_id
+    condition_id,
   }) => {
     const sql = {
       text: "INSERT INTO Article (title, description, price, transaction_id, date_transaction, state_completion, image_url, condition_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
@@ -87,8 +104,8 @@ const articleDataMapper = {
         date_transaction,
         state_completion,
         image_url,
-        condition_id
-      ]
+        condition_id,
+      ],
     };
     const result = await pool.query(sql);
     if (!result.rowCount) {
@@ -107,7 +124,7 @@ const articleDataMapper = {
     date_transaction,
     state_completion,
     image_url,
-    condition_id
+    condition_id,
   }) => {
     const sql = {
       text: `
@@ -132,14 +149,16 @@ const articleDataMapper = {
         date_transaction,
         state_completion,
         image_url,
-        condition_id
-      ]
+        condition_id,
+      ],
     };
 
     const result = await pool.query(sql);
 
     if (!result.rowCount) {
-      throw new Error("Aucune Annonce trouvée pour la mise à jour dans la base de données");
+      throw new Error(
+        "Aucune Annonce trouvée pour la mise à jour dans la base de données"
+      );
     }
 
     return result.rows[0];
@@ -149,7 +168,7 @@ const articleDataMapper = {
   findOneArticleById: async (id) => {
     const sql = {
       text: "SELECT * FROM Article WHERE id = $1;",
-      values: [id]
+      values: [id],
     };
     const result = await pool.query(sql);
     if (!result.rowCount) {
@@ -162,25 +181,24 @@ const articleDataMapper = {
   deleteOneArticleById: async (id) => {
     const sql = {
       text: "DELETE FROM Article WHERE id = $1;",
-      values: [id]
+      values: [id],
     };
     const result = await pool.query(sql);
     if (result.rowCount === 1) {
       return {
-        success: true
+        success: true,
       };
     } else {
       console.log(result);
       console.log("Aucune Annonce correspondante dans la base de données");
-
     }
   },
-  
+
   // Associe un manga à un article par la table de relation manga_has_article
   associateOneMangaToOneArticle: async (code_isbn, article_id) => {
     const sql = {
       text: "INSERT INTO manga_has_article (manga_code_isbn, article_id)VALUES ($1, $2) RETURNING*;",
-      values: [code_isbn, article_id]
+      values: [code_isbn, article_id],
     };
     const result = await pool.query(sql);
     if (!result.rowCount) {
@@ -190,10 +208,10 @@ const articleDataMapper = {
   },
 
   // Retourne les articles associés à un manga
-  findArticlesByManga : async (code_isbn) => {
+  findArticlesByManga: async (code_isbn) => {
     const sql = {
-      text :"SELECT article.* FROM article JOIN manga_has_article ON article.id = manga_has_article.article_id WHERE manga_has_article.manga_code_isbn = $1;",
-      values: [code_isbn]
+      text: "SELECT article.* FROM article JOIN manga_has_article ON article.id = manga_has_article.article_id WHERE manga_has_article.manga_code_isbn = $1;",
+      values: [code_isbn],
     };
 
     const result = await pool.query(sql);
@@ -204,10 +222,10 @@ const articleDataMapper = {
   },
 
   // Associe un manga à un article par la table de relation manga_has_article
-  associateOneUserToOneArticle : async (user_id, article_id) => {
+  associateOneUserToOneArticle: async (user_id, article_id) => {
     const sql = {
       text: "INSERT INTO user_has_article (user_id, article_id)VALUES ($1, $2) RETURNING*;",
-      values: [user_id, article_id]
+      values: [user_id, article_id],
     };
     const result = await pool.query(sql);
     if (!result.rowCount) {
@@ -215,21 +233,48 @@ const articleDataMapper = {
     }
     return result.rows[0];
   },
-  
+
   // Retourne les articles associés à un manga
-  findArticlesByUser : async (user_id) => {
+  findArticlesByUser: async (user_id) => {
     const sql = {
-      text :"SELECT article.* FROM article JOIN user_has_article ON article.id = user_has_article.article_id WHERE user_has_article.user_id = $1;",
-      values: [user_id]
+      text: "SELECT article.* FROM article JOIN user_has_article ON article.id = user_has_article.article_id WHERE user_has_article.user_id = $1;",
+      values: [user_id],
     };
-  
+
     const result = await pool.query(sql);
     if (result.rows.length === 0) {
       throw new Error("Aucune association trouvée dans la base de données");
     }
     return result.rows;
-  },
+  }, 
 
+  regroupArticle : (articles) => {
+    const articlesRegroupes = {};
+    // Parcourez chaque article
+    articles.forEach((article) => {
+      const articleID = article.article.id;
+
+      // Si l'articleID n'est pas déjà dans le tableau, ajoutez-le
+      if (!articlesRegroupes[articleID]) {
+        articlesRegroupes[articleID] = {
+          article: article.article,
+          user: article.user,
+          mangas: [], // Initialisez le tableau de mangas
+        };
+      }
+
+      // Ajoutez le manga actuel au tableau de mangas de l'article
+      articlesRegroupes[articleID].mangas.push(article.manga);
+    });
+
+    // Transformez l'objet en tableau d'articles regroupés
+    const articlesRegroupesArray = Object.values(articlesRegroupes);
+
+    return articlesRegroupesArray;
+  }
 };
+
+
+
 
 module.exports = articleDataMapper;
