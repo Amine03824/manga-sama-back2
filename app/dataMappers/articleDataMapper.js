@@ -26,7 +26,7 @@ const articleDataMapper = {
   ORDER BY article.created_at ASC
     ;`;
 
-    console.log("SQL Query:", sql); // On peut console.log le sql!
+    // console.log("SQL Query:", sql); // On peut console.log le sql!
 
     const result = await pool.query(sql);
     if (!result.rowCount) {
@@ -59,7 +59,7 @@ const articleDataMapper = {
           created_at : article.m_created_at,
           updated_at : article.m_updated_at,
         },
-
+        //TODO! à mdofier on envoie trop de données en public
         user: {
           id: article.id,
           lastname: article.lastname,

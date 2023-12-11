@@ -4,8 +4,11 @@ require("dotenv").config();
 const express = require('express');
 const router = require('./app/routes');
 const cors = require('cors');
+// const jwt = require('jsonwebtoken');
 // Import de la base de données pour se connecter automatiquement
 const { connectToDatabase } = require('./app/config/database');
+// Importe la configuration JWT
+// const jwtConfig = require('./config/jwt');
 
 const app = express();
 
@@ -29,7 +32,5 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`🌍 Le serveur tourne à : http://localhost:${PORT}`);
 });
-//
-// à mettre en off en phase développement
-//
+
 connectToDatabase(); 

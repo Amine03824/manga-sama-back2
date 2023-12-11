@@ -118,6 +118,23 @@ const userDataMapper = {
     }
     return result.rows[0];
   },
+  
+  // Récupère un Utilisateur par son email
+  findOneUserByEmail: async (email) => {
+    const sql = {
+      text: "SELECT * FROM public.user WHERE email = $1;",
+      values: [email],
+    };
+  
+    const result = await pool.query(sql);
+  
+    if (!result.rowCount) {
+      return null; // Aucun utilisateur trouvé
+    }
+  
+    return result.rows[0];
+  },
+  
 
   // Supprime une Utilisateur par son id
   deleteOneUserById: async (id) => {
