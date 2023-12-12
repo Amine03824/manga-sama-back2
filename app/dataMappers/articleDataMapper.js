@@ -18,12 +18,12 @@ const articleDataMapper = {
     manga.*,
     manga.created_at AS m_created_at,
     manga.updated_at AS m_updated_at
-  FROM article
-  INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
-  INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
-  INNER JOIN user_has_article ON article.id = user_has_article.article_id
-  INNER JOIN "user" ON user_has_article.user_id = "user".id
-  ORDER BY article.created_at ASC
+    FROM article
+    INNER JOIN manga_has_article ON article.id = manga_has_article.article_id
+    INNER JOIN manga ON manga_has_article.manga_code_isbn = manga.code_isbn
+    INNER JOIN user_has_article ON article.id = user_has_article.article_id
+    INNER JOIN "user" ON user_has_article.user_id = "user".id
+    ORDER BY article.created_at ASC
     ;`;
 
     // console.log("SQL Query:", sql); // On peut console.log le sql!
@@ -59,19 +59,10 @@ const articleDataMapper = {
           created_at : article.m_created_at,
           updated_at : article.m_updated_at,
         },
-        //TODO! à mdofier on envoie trop de données en public
         user: {
-          id: article.id,
-          lastname: article.lastname,
-          firstname: article.firstname,
+          id: article.u_id,
           pseudo: article.pseudo,
-          birthdate: article.birthdate,
-          address: article.address,
-          zip_code: article.zip_code,
           city: article.city,
-          phone_number: article.phone_number,
-          email: article.email,
-          role_id: article.role_id,
           created_at : article.u_created_at,
           updated_at : article.u_updated_at
         },

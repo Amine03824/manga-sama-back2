@@ -5,7 +5,9 @@ const pool = new Pool({
   password: process.env.PG_PASSWORD,
   host: process.env.PG_HOST,
   database: process.env.PG_DATABASE,
-  ssl: require,
+  ssl: {
+    rejectUnauthorized: true,
+  }
 });
 
 async function connectToDatabase() {

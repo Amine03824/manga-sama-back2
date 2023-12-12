@@ -7,17 +7,11 @@ POST  http://localhost:3000/user HTTP/1.1
 Content-Type: application/json
 
 {
-  "lastname": "Aminos",
-  "firstname": "Nodormir",
-  "pseudo": "jaimelesbonssteaks",
-  "birthdate": "1999-05-10",
-  "address": "",
-  "zip_code": "",
-  "city": "taboulistan",
-  "phone_number": "",
-  "email": "qsd@ilqdqsdfa.com",
-  "password": "houmouss"
-}
+  "pseudo": "sdfqsdqsd",
+  "email": "test@laposte.net",
+  "password": "Houmous$1",
+  "passwordConfirmation":"Houmous$1"
+  }
 
  // erreur sans les quotes alors que c'est du int
 
@@ -27,23 +21,32 @@ GET http://localhost:3000/user/1 HTTP/1.1
 
 ###
 // Modifier les infos d'un utilisateur par son ID .getOneUserById
-PUT  http://localhost:3000/user/5 HTTP/1.1
+PUT   http://localhost:3000/user/10 HTTP/1.1
 Content-Type: application/json
 
 {
-  "lastname": "Olivier",
-  "firstname": "Séné",
-  "pseudo": "Olivier_Fan2Rock",
-  "birthdate": "1941-05-10",
+  "lastname": "jeanmichel",
+  "firstname": "codeur",
+  "pseudo": "sdfqsdqsd",
+  "birthdate": "",
   "address": "",
-  "zip_code": "",
-  "city": "London",
-  "phone_number": "",
-  "email": "qsdqsqsdqsdfsdqsd@ilqdqsdfa.com",
-  "password": "TelegraphRoad"
+  "zip_code": "15155",
+  "city": "",
+  "phone_number": ""
+  }
+
+
+###
+
+// Modifier les infos d'un utilisateur par son ID .getOneUserById
+PATCH    http://localhost:3000/user/10 HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "qslmdjkqslmdj@lksd.com"
   }
 
 
 ###
 // Supprimer un utilisateur .removeOneUserById
-DELETE  http://localhost:3000/user/5 HTTP/1.1
+DELETE  http://localhost:3000/user/10 HTTP/1.1

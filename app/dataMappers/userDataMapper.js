@@ -15,28 +15,14 @@ const userDataMapper = {
   
   // Insère un nouvel Utilisateur dans la base de données
   insertOneUser: async ({
-    lastname,
-    firstname,
     pseudo,
-    birthdate,
-    address,
-    zip_code,
-    city,
-    phone_number,
     email,
     password,
   }) => {
     const sql = {
-      text: "INSERT INTO public.user (lastname, firstname, pseudo, birthdate, address, zip_code, city, phone_number, email, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;",
+      text: "INSERT INTO public.user (pseudo, email, password) VALUES ($1, $2, $3) RETURNING *;",
       values: [
-        lastname,
-        firstname,
         pseudo,
-        birthdate,
-        address,
-        zip_code,
-        city,
-        phone_number,
         email,
         password,
       ],
@@ -58,9 +44,7 @@ const userDataMapper = {
     address,
     zip_code,
     city,
-    phone_number,
-    email,
-    password,
+    phone_number
   }) => {
     const sql = {
       text: `
@@ -73,9 +57,7 @@ const userDataMapper = {
     address = $6,
     zip_code = $7,
     city = $8,
-    phone_number = $9,
-    email = $10,
-    password = $11
+    phone_number = $9
     WHERE id = $1
     RETURNING *;`,
       values: [
@@ -87,9 +69,35 @@ const userDataMapper = {
         address,
         zip_code,
         city,
-        phone_number,
-        email,
-        password,
+        phone_number
+      ],
+    };
+
+    const result = await pool.query(sql);
+
+    if (!result.rowCount) {
+      throw new Error(
+        "Aucun Utilisateur trouvé pour la mise à jour dans la base de données"
+      );
+    }
+
+    return result.rows[0];
+  },
+  // Met à jour les informations d'un Utilisateur dans la base de données
+  updateOneUserEmail: async ({
+    id,
+    email
+  }) => {
+    const sql = {
+      text: `
+    UPDATE 
+    public.user SET  
+    email = $2
+    WHERE id = $1
+    RETURNING *;`,
+      values: [
+        id,
+        email
       ],
     };
 
