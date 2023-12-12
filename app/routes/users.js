@@ -12,7 +12,7 @@ const authenticationMiddleware = require("../middlewares/authenticationMiddlewar
 router
   .route("/")
   .get(userController.getAllUsers)
-  .post(authenticationMiddleware, userController.createOneUser);
+  .post(userController.createOneUser);
 
 // Route correspondant à un utilisateur spécifique
 router

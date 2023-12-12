@@ -39,7 +39,7 @@ router.use("/role", rolesRouter);
 router.use("/images", imagesRouter);
 
 // Routes correspondnant à la gestion de l'authentification et de la déconnexion
-router.use("auth", authenticationRouter);
+router.use("/auth", authenticationRouter);
 
 // Routes correspondant aux associations
 router.use("/associate", associationsRouter);

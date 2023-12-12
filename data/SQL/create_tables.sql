@@ -3,7 +3,7 @@ BEGIN;
 
 -- Suppression des tables si elles existaient déjà
 
-DROP TABLE IF EXISTS "user", "role", "manga", "category", "article", "condition" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "manga", "category", "article", "condition", "user_has_article", "manga_has_article" CASCADE;
 DROP DOMAIN IF EXISTS email_domain;
 DROP DOMAIN IF EXISTS birthdate_domain;
 

@@ -16,7 +16,7 @@ INSERT INTO "category" ("category_name") VALUES
 ('Shōnen'), 
 ('Seinen'), 
 ('Shōjo'), 
-('Josei'), 9791032713792
+('Josei'),
 ('Kodomo'), 
 ('Seijin');
 
@@ -97,5 +97,27 @@ VALUES
   ('9782811679811', 16),
   ('9782344020685', 17),
   ('9782380710243', 18); 
+
+-- Ajout de user_has_article
+INSERT INTO "user_has_article" ("user_id", "article_id")
+VALUES
+(1,17),
+(1,12),
+(2,1),
+(2,7),
+(3,8),
+(4,9),
+(4,10),
+(6,11),
+(6,16),
+(6,5),
+(6,2),
+(7,3),
+(8,4),
+(8,6),
+(8,14),
+(5,18),
+(5,13),
+(6,15);
 
 COMMIT;
