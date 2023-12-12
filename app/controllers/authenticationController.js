@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const jwtConfig = require("../config/jwt");
 const userDataMapper = require("../dataMappers/userDataMapper");
+const tokensBlacklist = require("../middlewares/authenticationMiddleware");
 
 const authenticationController = {
   // Fonction pour la connexion de l'utilisateur
@@ -68,8 +69,10 @@ const authenticationController = {
           .json({ message: "Token manquant. Déconnexion impossible." });
       }
 
-      // Cela peut être utile si tu veux gérer des tokens invalidés de manière centralisée
-      // Exemple : jwtConfig.invalidTokens.push(token);
+      // Ajoute le token à l'ensemble des tokens invalides
+
+      // Permet de gérer des tokens invalidés de manière centralisée
+      tokensBlacklist.push(token);
 
       // Répond avec un succès pour indiquer que la déconnexion s'est déroulée correctement
       return response.status(200).json({
