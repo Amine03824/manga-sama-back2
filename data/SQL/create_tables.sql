@@ -133,6 +133,27 @@ CREATE TABLE IF NOT EXISTS "manga_has_article" (
   PRIMARY KEY ("manga_code_isbn", "article_id")
 );
 
+-- Création de la fonction de déclencheur pour la mise à jour de la colonne updated_at
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql; -- Ajout de cette ligne pour terminer le bloc
+
+
+-- Création du déclencheur pour la table "user"
+CREATE TRIGGER user_updated_at_trigger
+BEFORE UPDATE ON "user"
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+-- Création du déclencheur pour la table "article"
+CREATE TRIGGER article_updated_at_trigger
+BEFORE UPDATE ON "article"
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
 
 -- Pour mettre fin au bloc de transaction et l'exécuter
 COMMIT;

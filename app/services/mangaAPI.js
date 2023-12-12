@@ -44,7 +44,7 @@ async function mangaAPI(isbn) {
     const titleElement = $(".fp-top--main-info .product-title");
     const title = titleElement
       .contents()
-      .filter(function() {
+      .filter(function () {
         return this.nodeType === 3; // Filtrer les nœuds de texte
       })
       .text()
@@ -53,10 +53,19 @@ async function mangaAPI(isbn) {
     // Fonction pour extraire le numéro de tome ou de volume (insensible à la casse)
     function extractVolumeNumber(title) {
       // Extraire le numéro de tome ou de volume (insensible à la casse)
-      const match = title.match(/(tome|volume) (\d+)/i);
-      return match ? parseInt(match[2], 10) : null;
-    }
+      const match = title.match(/(?:tome|volume|t|v)\s*(\d+)|T(\d+)/i);
 
+      if (match) {
+        // Vérifier si le premier groupe de capture (pour "tome" ou "volume") est défini
+        if (match[1]) {
+          return parseInt(match[1], 10);
+        }
+        // Si le premier groupe n'est pas défini, utiliser le deuxième groupe (pour "TXX")
+        return parseInt(match[2], 10) || NaN;
+      }
+
+      return NaN; // Utiliser NaN si le numéro n'est pas trouvé
+    }
     // Retirer le texte "Tome xx" ou "Volume xx" du titre (insensible à la casse)
     const titleWithoutVolume = title.replace(/(tome|volume) \d+/i, "").trim();
 
@@ -67,7 +76,7 @@ async function mangaAPI(isbn) {
     function extractAuthors() {
       const authorElements = $(".authors.authors--main h2 a");
       const authors = authorElements
-        .map(function() {
+        .map(function () {
           return $(this).text().trim();
         })
         .get();
@@ -151,51 +160,59 @@ async function mangaAPI(isbn) {
     // Extraire l'année de la date (supposant que le format est toujours dd/mm/yyyy)
     const year = publicationDate.split("/")[2];
 
-    // Mapping des noms de catégories aux ID correspondants
-    const categoryMapping = {
+    // Récupérer le genre du livre avec le nouveau sélecteur
+    const genreElement = $("#main_breadcrumb > ul > li:last-child > a > span");
+    const genreText = genreElement.text().trim();
+
+    // Retirer la chaîne "Manga" du début du genre s'il existe
+    const cleanedGenre = genreText.replace(/^Mangas\s+/i, "");
+
+    // Mapping des genres de manga aux catégories correspondantes
+    const genreToCategoryMapping = {
       Shonen: 1,
       Seinen: 2,
       Shojo: 3,
       Josei: 4,
       Kodomo: 5,
-      Seijin: 6
+      "Kodomo (enfants)": 5,
+      Hentai: 6,
+      Ecchi: 7
     };
-    // Récupérer le genre du livre avec le nouveau sélecteur
-    const genre = $("#main_breadcrumb > ul > li:last-child > a > span")
-      .text()
-      .trim();
 
-    // Utiliser une expression régulière pour extraire le dernier mot
-    const lastWordMatch = genre.match(/\b(\w+)\b$/);
-    const lastWord = lastWordMatch ? lastWordMatch[1] : ""; // Le dernier mot trouvé
-
-    // Mettre la première lettre en majuscule
-    const formattedGenre = lastWord.charAt(0).toUpperCase() + lastWord.slice(1);
-
-    // Trouver l'ID de la catégorie correspondant au genre dans le mapping
-    const categoryId = categoryMapping[formattedGenre];
-    // Condition pour gérer le cas où la catégorie n'est pas détectée
-    if (categoryId === undefined) {
-      console.error("Catégorie non reconnue :", formattedGenre);
-      return null;
+    // Obtenir le genre formaté
+    const formattedGenre =
+      cleanedGenre.charAt(0).toUpperCase() + cleanedGenre.slice(1);
+    console.log(formattedGenre);
+    // Obtenir la catégorie à partir du mapping
+    const category_id = genreToCategoryMapping[formattedGenre];
+    console.log("catégorie de manga :" + category_id);
+    if (category_id === undefined) {
+      throw new Error("Genre non pris en charge");
     }
+
+    // Vérifier si la catégorie est autorisée
+    if (category_id === 6 || category_id === 7) {
+      throw new Error(
+        "Cette catégorie de manga n'est pas autorisée sur le site petit coquin"
+      );
+    }
+
     // Retourner un objet contenant toutes les informations du livre
     return {
       code_isbn: parseInt(isbn),
-      title : titleWithoutVolume ,
+      title: titleWithoutVolume,
       volume: parseInt(volumeNumber),
       year_publication: parseInt(year),
       author: mainAuthor,
       description,
       cover_url: localImageUrl,
-      category_id: categoryId
+      category_id
     };
-    
   }
 
   // Exemple d'utilisation de la fonction pour extraire les informations du livre
   const extractedBookInfo = await extractBookInfo();
-  return  extractedBookInfo;
+  return extractedBookInfo;
   // Afficher les informations du livre dans la console
   // console.log("Informations du livre :", extractedBookInfo);
 }
