@@ -24,7 +24,7 @@ router
 // Route d'API d'insertion d'un nouveau manga en base de données
 router
   .route("/API/:isbn")
-  .get(authenticationMiddleware, mangaController.getMangaInfos);
+  .get(mangaController.getMangaInfos);
 
 // Export
 module.exports = router;
