@@ -6,20 +6,22 @@ const router = express.Router();
 const categoryController = require("../controllers/categoryController");
 
 // Import du middleware d'authentification
-const authenticationMiddleware = require("../middlewares/authenticationMiddleware");
+const {
+  authenticateMiddleware
+} = require("../middlewares/authenticationMiddleware");
 
 // Routes correspondant aux catégories
 router
   .route("/")
   .get(categoryController.getAllCategories)
-  .post(authenticationMiddleware, categoryController.createOneCategory);
+  .post(authenticateMiddleware, categoryController.createOneCategory);
 
 // Routes correspondant à une catégorie spécifique
 router
   .route("/:id")
   .get(categoryController.getOneCategoryById)
-  .patch(authenticationMiddleware, categoryController.modifyOneCategoryById)
-  .delete(authenticationMiddleware, categoryController.removeOneCategoryById);
+  .patch(authenticateMiddleware, categoryController.modifyOneCategoryById)
+  .delete(authenticateMiddleware, categoryController.removeOneCategoryById);
 
 // Export
 module.exports = router;

@@ -6,10 +6,12 @@ const router = express.Router();
 const roleController = require("../controllers/roleController");
 
 // Import du middleware d'authentification
-const authenticationMiddleware = require("../middlewares/authenticationMiddleware");
+const {
+  authenticateMiddleware
+} = require("../middlewares/authenticationMiddleware");
 
 // Ajout du Middleware d'authentification sécurisée
-router.use(authenticationMiddleware);
+router.use(authenticateMiddleware);
 
 // Routes correspondant aux rôles utilisateur
 router

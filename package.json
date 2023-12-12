@@ -9,7 +9,7 @@
     "dbr:seed": "psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f data/SQL/seed_tables.sql",
     "dbr:reset": "psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f  data/SQL/create_tables.sql && psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f data/SQL/seed_tables.sql",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -27,7 +27,8 @@
     "multer": "1.4.5-lts.1",
     "nodejs": "^0.0.0",
     "pg": "^8.11.3",
-    "sanitizer": "^0.1.3"
+    "sanitizer": "^0.1.3",
+    "stripe": "^14.8.0"
   },
   "devDependencies": {
     "eslint": "^8.54.0"

@@ -1,7 +1,6 @@
 const articleDataMapper = require("../dataMappers/articleDataMapper");
 
 const articleController = {
-  
   // Récupère tous les articles de la base de données
   getAllArticles: async (request, response, next) => {
     try {
@@ -9,9 +8,7 @@ const articleController = {
       if (!articles) {
         return next();
       }
-      return response.status(200).json(
-        articles
-      );
+      return response.status(200).json(articles);
     } catch (error) {
       console.log(error);
       return response.json({
@@ -25,27 +22,16 @@ const articleController = {
   },
 
   // Crée un nouvel article dans la base de données
-  createOneArticle: async (request, response) => {
+  createOneArticle: async (request, response, next) => {
     try {
-      const {
-        title,
-        description,
-        price,
-        image_url,
-        condition_id
-      } = request.body;
+      const { title, description, price, image_url, condition_id } =
+        request.body;
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
-      if (
-        !title ||
-        !description ||
-        !price ||
-        !image_url ||
-        !condition_id
-      ) {
+      if (!title || !description || !price || !image_url || !condition_id) {
         return response.json({
-          status : 400, 
-          error: "Paramètre manquant dans le corps de la requête HTTP" 
+          status: 400,
+          error: "Paramètre manquant dans le corps de la requête HTTP"
         });
       }
       const newArticle = await articleDataMapper.insertOneArticle({
@@ -89,7 +75,6 @@ const articleController = {
   // Récupère une annonce par son code id
   getOneArticleById: async (request, response) => {
     try {
-
       const { id } = request.params;
 
       const article = await articleDataMapper.findOneArticleById(id);
@@ -102,9 +87,7 @@ const articleController = {
           message: "Aucune annonce trouvée avec le code id spécifié"
         });
       }
-      return response.json(
-        article
-      );
+      return response.json(article);
     } catch (error) {
       console.log(error);
       return response.json({
@@ -117,18 +100,21 @@ const articleController = {
     }
   },
 
-  modifyOneArticleById : async (request, response) => {
+  modifyOneArticleById: async (request, response) => {
     try {
       const { id } = request.params;
 
-      const {
-        title,
-        description,
-        price,
-        image_url,
-        condition_id } = request.body;
+      const { title, description, price, image_url, condition_id } =
+        request.body;
 
-      if (!id || !title || !description || !price || !image_url || !condition_id) {
+      if (
+        !id ||
+        !title ||
+        !description ||
+        !price ||
+        !image_url ||
+        !condition_id
+      ) {
         return response.json({
           status: 400,
           error: "Paramètre manquant dans le corps de la requête HTTP"
@@ -137,9 +123,9 @@ const articleController = {
 
       if (price && typeof price !== "number") {
         return response.json({
-          "error": "Type invalide : le prix doit être un nombre"}
-        );}
-
+          error: "Type invalide : le prix doit être un nombre"
+        });
+      }
 
       const modifiedArticle = await articleDataMapper.updateOneArticle({
         id,
@@ -151,28 +137,23 @@ const articleController = {
       });
 
       if (modifiedArticle) {
-      // La modification s'est bien déroulée
-        return response.status(201).json(
-          modifiedArticle
-        );
-
+        // La modification s'est bien déroulée
+        return response.status(201).json(modifiedArticle);
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
         return response.json({
-          status : 200,
+          status: 200,
           success: false,
-          message: "Aucune annonce n'a été modifié",
+          message: "Aucune annonce n'a été modifié"
         });
-
       }
-
-    }catch (error) {
+    } catch (error) {
       console.log(error);
       return response.json({
-        status : 500,
+        status: 500,
         success: false,
         error: {
-          message : error.toString()
+          message: error.toString()
         }
       });
     }
@@ -217,59 +198,60 @@ const articleController = {
       if (!isbn || !articleId) {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans les paramètres de la requête HTTP",
+          error: "Paramètre manquant dans les paramètres de la requête HTTP"
         });
       }
 
       const code_isbn = isbn;
-      
-      const associationResult = await articleDataMapper.associateOneMangaToOneArticle(code_isbn, articleId);
-      // Association réussie entre le manga et l'article
-      return response.status(200).json( associationResult );
 
+      const associationResult =
+        await articleDataMapper.associateOneMangaToOneArticle(
+          code_isbn,
+          articleId
+        );
+      // Association réussie entre le manga et l'article
+      return response.status(200).json(associationResult);
     } catch (error) {
       console.error(error);
       return response.json({
         status: 500,
         success: false,
         error: {
-          message: error.toString(),
-        },
+          message: error.toString()
+        }
       });
     }
   },
 
   // Retourne les articles associés à un manga
-  getArticlesByManga : async (request, response) => {
-
+  getArticlesByManga: async (request, response) => {
     try {
       const { isbn } = request.params;
       if (!isbn) {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans le corps de la requête HTTP",
+          error: "Paramètre manquant dans le corps de la requête HTTP"
         });
       }
 
       const articles = await articleDataMapper.findArticlesByManga(isbn);
       // Si aucun article n'est associé à ce manga
-      if(!articles){
+      if (!articles) {
         return response.json({
-          stauts : 404,
-          error : "Aucun article associé à ce manga"
+          stauts: 404,
+          error: "Aucun article associé à ce manga"
         });
       }
       // Retourne les articles associés à ce manga
-      return response.status(200).json( articles );
-
+      return response.status(200).json(articles);
     } catch (error) {
       console.log(error);
       return response.json({
         status: 500,
         success: false,
         error: {
-          message: error.toString(),
-        },
+          message: error.toString()
+        }
       });
     }
   },
@@ -278,49 +260,48 @@ const articleController = {
   linkOneUserToOneArticle: async (request, response) => {
     try {
       const { userId, articleId } = request.params;
-  
+
       if (!userId || !articleId) {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans les paramètres de la requête HTTP",
+          error: "Paramètre manquant dans les paramètres de la requête HTTP"
         });
       }
-        
-      const associationResult = await articleDataMapper.associateOneUserToOneArticle(userId, articleId);
-      if(!associationResult){
+
+      const associationResult =
+        await articleDataMapper.associateOneUserToOneArticle(userId, articleId);
+      if (!associationResult) {
         return response.json({
-          stauts : 404, // Peut être 424 // TODO! Check
-          error : "L'association entre l'utilisateur et son article à échoué"
+          stauts: 404, // Peut être 424 // TODO! Check
+          error: "L'association entre l'utilisateur et son article à échoué"
         });
       }
 
       // Association réussie entre le manga et l'article
-      return response.status.json( associationResult);
+      return response.status(200).json(associationResult);
     } catch (error) {
       console.error(error);
       return response.json({
         status: 500,
         success: false,
         error: {
-          message: error.toString(),
-        },
+          message: error.toString()
+        }
       });
     }
   },
-  
+
   // Retourne les articles associés à un untilisateur
-  getArticlesByUser : async (request, response) => {
-  
+  getArticlesByUser: async (request, response) => {
     try {
       const { userId } = request.params;
       if (!userId) {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans le corps de la requête HTTP",
+          error: "Paramètre manquant dans le corps de la requête HTTP"
         });
       }
-  
-  
+
       const articles = await articleDataMapper.findArticlesByUser(userId);
       // Ce cas d'usage ne devrait pas se présenter
       // if (!articles){
@@ -330,19 +311,17 @@ const articleController = {
       //   });
       // }
       return response.status(200).json(articles);
-
     } catch (error) {
       console.log(error);
       return response.json({
         status: 500,
         success: false,
         error: {
-          message: error.toString(),
-        },
+          message: error.toString()
+        }
       });
     }
-  },
-
+  }
 };
 
 module.exports = articleController;
