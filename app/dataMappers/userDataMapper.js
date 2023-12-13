@@ -133,13 +133,13 @@ const userDataMapper = {
       text: "SELECT * FROM public.user WHERE email = $1;",
       values: [email],
     };
-    
+  
     const result = await pool.query(sql);
+  
     if (!result.rowCount) {
-      throw new Error(
-        "Aucun Utilisateur correspondant dans la base de données"
-      );
+      return null; // Aucun utilisateur trouvé
     }
+  
     return result.rows[0];
   },
   
@@ -264,5 +264,25 @@ const userDataMapper = {
     }
     return result.rows;
   },
+
+  insertImageProfileByUserId: async (id, image_profile_url) => {
+    try {  
+      const sql = {
+        text: "UPDATE public.user SET image_profile_url = $2 WHERE id = $1 RETURNING *;",
+        values: [id, image_profile_url],
+      };
+  
+      const result = await pool.query(sql);
+  
+      if (!result.rowCount) {
+        throw new Error("Aucun utilisateur trouvé dans la base de données");
+      }
+  
+      return result.rows[0];
+    } catch (error) {
+      console.error(error);
+      throw error; // rethrow the error to handle it in the calling function
+    }
+  }
 };
 module.exports = userDataMapper;

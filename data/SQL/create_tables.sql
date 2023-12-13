@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "email" email_domain CHECK (email ~* '^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$') UNIQUE NOT NULL,
   "password" VARCHAR(255) NOT NULL,
   "role_id" INTEGER NOT NULL DEFAULT 1, -- L'utilisateur est par défaut limité -- on ne peut pas tout de suite indiquer que cette clé est une clé étrangère qui fait référence à la table role, puisque la table role n'existe pas encore ! (on le fera plus tard)
+  "image_profile_url" TEXT, 
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -87,7 +88,8 @@ CREATE TABLE IF NOT EXISTS "article" (
   "transaction_id" VARCHAR(36),
   "date_transaction" DATE,
   "state_completion" INTEGER DEFAULT 0,
-  "image_url" VARCHAR(255),
+  "photo_url" TEXT,
+  "image_url" TEXT,
   "condition_id" INTEGER NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ   

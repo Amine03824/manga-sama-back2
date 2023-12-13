@@ -4,7 +4,7 @@ const transactionDataMapper = {
   // Insère une nouvelle catégorie dans la base de données
     
   updateTransactionDetails: async ({
-    articleID,
+    article_id,
     transaction_id,
     date_transaction,
     state_completion
@@ -14,7 +14,7 @@ const transactionDataMapper = {
     const sql = {
       text : "UPDATE article SET transaction_id =$2, date_transaction =$3, state_completion =$4 WHERE id = $1 RETURNING *;",
       values : [
-        articleID,
+        article_id,
         transaction_id,
         date_transaction,
         state_completion],

@@ -18,7 +18,7 @@ const transactionController = {
         !articleID 
       ) {
         return response.status(400).json({
-          error: "Missing body parameter"
+          error: "Paramètre manquant dans le corps de la requête"
         });
       }
 

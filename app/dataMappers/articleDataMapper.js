@@ -76,7 +76,31 @@ const articleDataMapper = {
     return regroupedArticle;
   },
 
+  regroupArticle : (articles) => {
+    const articlesRegroupes = {};
+    // Parcourez chaque article
+    articles.forEach((article) => {
+      const articleID = article.article.id;
 
+      // Si l'articleID n'est pas déjà dans le tableau, ajoutez-le
+      if (!articlesRegroupes[articleID]) {
+        articlesRegroupes[articleID] = {
+          article: article.article,
+          user: article.user,
+          mangas: [], // Initialisez le tableau de mangas
+        };
+      }
+
+      // Ajoutez le manga actuel au tableau de mangas de l'article
+      articlesRegroupes[articleID].mangas.push(article.manga);
+    });
+
+    // Transformez l'objet en tableau d'articles regroupés
+    const articlesRegroupesArray = Object.values(articlesRegroupes);
+    
+
+    return articlesRegroupesArray;
+  },
 
   // Insère une nouvelle annonce dans la base de données
   insertOneArticle: async ({
@@ -243,31 +267,25 @@ const articleDataMapper = {
     return result.rows;
   }, 
 
-  regroupArticle : (articles) => {
-    const articlesRegroupes = {};
-    // Parcourez chaque article
-    articles.forEach((article) => {
-      const articleID = article.article.id;
-
-      // Si l'articleID n'est pas déjà dans le tableau, ajoutez-le
-      if (!articlesRegroupes[articleID]) {
-        articlesRegroupes[articleID] = {
-          article: article.article,
-          user: article.user,
-          mangas: [], // Initialisez le tableau de mangas
-        };
-      }
-
-      // Ajoutez le manga actuel au tableau de mangas de l'article
-      articlesRegroupes[articleID].mangas.push(article.manga);
-    });
-
-    // Transformez l'objet en tableau d'articles regroupés
-    const articlesRegroupesArray = Object.values(articlesRegroupes);
-    
-
-    return articlesRegroupesArray;
+  insertImageByArticleId : async (
+    id,
+    photo_url,
+  ) => {
+    const sql = {
+      text: "UPDATE article SET photo_url =$2 WHERE id = $1 RETURNING *;",
+      values : [
+        id,
+        photo_url
+      ],
+    };
+    const result = await pool.query(sql);
+    if (!result.rowCount) {
+      throw new Error("Aucune Annonce trouvée dans la base de données");
+    }
+    return result.rows[0];
   }
+
+
 };
 
 

@@ -54,3 +54,5 @@ router.use("/admin", adminRouter);
 router.use("/transaction", transctionRouter);
 
 module.exports = router;
+
+// TODO! : protéger les routes avec un middleware qui check l'authorization
