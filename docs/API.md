@@ -150,7 +150,7 @@
 - **Description :** Récupère toutes les annonces associées à un manga spécifique.
 - **Exemple d'utilisation :**
   ~~~ http
-  GET /article/manga/123456789
+  GET associate/article/manga/123456789
   ~~~
 ## 2\. Associer un manga à un article
 - **URL :** `associate/article/manga/:articleId/:isbn`
@@ -159,7 +159,7 @@
 - **Description :** Associe un manga existant à une annonce spécifique.
 - **Exemple d'utilisation :**
   ~~~ http
-  POST /article/manga/1/123456789
+  POST associate/article/manga/1/123456789
   ~~~
 ## 3\. Récupérer toutes les annonces en lien avec un utilisateur particulier
 - **URL :** `associate/user/:userId/article/`
@@ -167,7 +167,7 @@
 - **Description :** Récupère toutes les annonces associées à un utilisateur spécifique.
 - **Exemple d'utilisation :**
   ~~~ http
-  GET /user/123/articles/
+  GET associate/user/123/articles/
   ~~~
 ## 4\. Associer un utilisateur à une annonce
 - **URL :** `associate/user/article/:userId/:articleId`
@@ -176,7 +176,7 @@
 - **Description :** Associe un utilisateur existant à une annonce spécifique.
 - **Exemple d'utilisation :**
   ~~~ http
-  POST /user/article/123/1
+  POST associate/user/article/123/1
   ~~~
 ## 5\. Récupérer toutes les annonces associées à un manga
 - **URL :** `associate/article/manga/:isbn`
@@ -184,7 +184,7 @@
 - **Description :** Récupère toutes les annonces associées à un manga spécifique.
 - **Exemple d'utilisation :**
   ~~~ http
-  GET /article/manga/123456789
+  GET associate/article/manga/123456789
   ~~~
 ## 6\. Associer un utilisateur à une annonce
 - **URL :** `associate/user/article/:userId/:articleId`
