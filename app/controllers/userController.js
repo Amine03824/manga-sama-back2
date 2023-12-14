@@ -62,7 +62,7 @@ const userController = {
         password: Joi.string()
           .min(8)
           .regex(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]+$/
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*-])[A-Za-z\d!@#$%^&*-]+$/
           )
           .required()
           .messages({
