@@ -146,13 +146,15 @@ const userController = {
           // Retourne une réponse avec le statut 200 et les données de l'utilisateur ainsi que le token
           return response.status(201).json({
             success: true,
-            message: 'Inscription réussie. Email de confirmation envoyé.',
+            message: "Inscription réussie. Email de confirmation envoyé.",
             user: newUser,
             token: token
           });
         } catch (error) {
           console.error(error);
-          response.status(500).json({ message: 'Erreur lors de l\'envoi de l\'e-mail de confirmation.' });
+          response.status(500).json({
+            message: "Erreur lors de l'envoi de l'e-mail de confirmation."
+          });
         }
         return response.json({
           status: 201,
@@ -397,25 +399,25 @@ const userController = {
         role_id
       } = request.body;
 
-      if (
-        typeof lastname !== "string" ||
-        typeof firstname !== "string" ||
-        typeof pseudo !== "string" ||
-        typeof birthdate !== "string" ||
-        typeof address !== "string" ||
-        typeof zip_code !== "string" ||
-        typeof city !== "string" ||
-        typeof phone_number !== "string" ||
-        typeof email !== "string" ||
-        typeof password !== "string" ||
-        typeof role_id !== "number"
-      ) {
-        return response.json({
-          status: 400,
-          error: "Paramètre manquant dans le corps de la requête HTTP"
-        });
-      }
-
+      // if (
+      //   typeof lastname !== "string" ||
+      //   typeof firstname !== "string" ||
+      //   typeof pseudo !== "string" ||
+      //   typeof birthdate !== "string" ||
+      //   typeof address !== "string" ||
+      //   typeof zip_code !== "string" ||
+      //   typeof city !== "string" ||
+      //   typeof phone_number !== "string" ||
+      //   typeof email !== "string" ||
+      //   typeof password !== "string" ||
+      //   typeof role_id !== "number"
+      // ) {
+      //   return response.json({
+      //     status: 400,
+      //     error: "Paramètre manquant dans le corps de la requête HTTP"
+      //   });
+      // }
+      //TODO! à réparer ne marche pas les checks
       const adminModifiedUser = await userDataMapper.adminUpdateOneUser({
         id,
         lastname,

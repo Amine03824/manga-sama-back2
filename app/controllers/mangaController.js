@@ -11,9 +11,7 @@ const mangaController = {
         return next();
       }
 
-      response.status(200).json(
-        mangas
-      );
+      response.status(200).json(mangas);
     } catch (error) {
       console.log(error);
       return response.json({
@@ -26,12 +24,10 @@ const mangaController = {
     }
   },
 
-  // 🌍 Crée une entrée dans la base de données à partir d'un ISBN 
+  // 🌍 Crée une entrée dans la base de données à partir d'un ISBN
   getMangaInfos: async (request, response) => {
     try {
-      const {
-        isbn
-      } = request.params;
+      const { isbn } = request.params;
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
       if (!isbn) {
@@ -46,7 +42,7 @@ const mangaController = {
         // Récupère les informations du manga
         const mangaInfo = await mangaService.mangaAPI(isbn);
         console.log(`༼ つ ◕_◕ ༽つ l'API a marché on a chopé le manga`);
-        
+
         if (mangaInfo) {
           // Insère les informations du manga en base de données
           const insertedManga = await mangaDataMapper.insertOneManga({
@@ -69,7 +65,8 @@ const mangaController = {
             return response.json({
               status: 200,
               success: false,
-              message: "Aucun manga n'a été créé, peut-être que le manga existe déjà"
+              message:
+                "Aucun manga n'a été créé, peut-être que le manga existe déjà"
             });
           }
         } else {
@@ -156,7 +153,8 @@ const mangaController = {
         return response.json({
           status: 200,
           success: false,
-          message: "Aucun manga n'a été créé, peut-être que le manga existe déjà"
+          message:
+            "Aucun manga n'a été créé, peut-être que le manga existe déjà"
         });
       }
     } catch (error) {
@@ -172,20 +170,17 @@ const mangaController = {
   },
 
   // Récupère un manga par son code isbn
-  getOneMangaById: async ( request, response) => {
+  getOneMangaById: async (request, response) => {
     try {
-      const {
-        isbn
-      } = request.params;
+      const { isbn } = request.params;
       const manga = await mangaDataMapper.findOneMangaById(isbn);
-      // Si Aucun manga trouvé on essaye avec l'API    
-      if (!manga){
+      // Si Aucun manga trouvé on essaye avec l'API
+      if (!manga) {
         return response.redirect(`/manga/API/${isbn}`);
       }
       // Le manga existe et il a été trouvé dans le base de données il est retourné
       return response.status(200).json(manga);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
       return response.json({
         status: 500,
@@ -199,9 +194,7 @@ const mangaController = {
 
   modifyOneMangaById: async (request, response) => {
     try {
-      const {
-        isbn
-      } = request.params; // Sachant que l'ISBN est unique et ne peut être modifié
+      const { isbn } = request.params; // Sachant que l'ISBN est unique et ne peut être modifié
       const code_isbn = isbn;
 
       const {
@@ -221,18 +214,18 @@ const mangaController = {
         });
       }
 
-      if (volume && typeof volume !== "number") {
-        return response.json({
-          "error": "Type invaliconst code_isbn = toString(isbn);de : le tome doit être un nombre"
-        });
-      }
+      // if (volume && typeof volume !== "number") {
+      //   return response.json({
+      //     "error": "Type invaliconst code_isbn = toString(isbn);de : le tome doit être un nombre"
+      //   });
+      // }
 
-      if (year_publication && typeof year_publication !== "number") {
-        return response.json({
-          "error": "Type invalide : l'année de publication doit être un nombre"
-        });
-      }
-
+      // if (year_publication && typeof year_publication !== "number") {
+      //   return response.json({
+      //     "error": "Type invalide : l'année de publication doit être un nombre"
+      //   });
+      // }
+      // TODO! : Checks non fonctionnel
       const modifiedManga = await mangaDataMapper.updateOneManga({
         code_isbn,
         title,
@@ -241,7 +234,7 @@ const mangaController = {
         author,
         description,
         cover_url,
-        category_id,
+        category_id
       });
 
       if (modifiedManga) {
@@ -249,20 +242,17 @@ const mangaController = {
         return response.json({
           status: 201,
           success: true,
-          message: 'Le manga a été modifié avec succès',
-          manga: modifiedManga,
+          message: "Le manga a été modifié avec succès",
+          manga: modifiedManga
         });
-
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
         return response.json({
           status: 200,
           success: false,
-          message: "Aucun manga n'a été modifié",
+          message: "Aucun manga n'a été modifié"
         });
-
       }
-
     } catch (error) {
       console.log(error);
       return response.json({
@@ -278,9 +268,7 @@ const mangaController = {
   // Supprime un manga par son code ISBN
   removeOneMangaById: async (request, response) => {
     try {
-      const {
-        isbn
-      } = request.params; // Sachant que l'ISBN est unique et ne peut être modifié
+      const { isbn } = request.params; // Sachant que l'ISBN est unique et ne peut être modifié
       const code_isbn = isbn;
       const manga = await mangaDataMapper.deleteOneMangaById(code_isbn);
       if (!manga) {

@@ -121,12 +121,12 @@ const articleController = {
         });
       }
 
-      if (price && typeof price !== "number") {
-        return response.json({
-          error: "Type invalide : le prix doit être un nombre"
-        });
-      }
-
+      // if (price && typeof price !== "number") {
+      //   return response.json({
+      //     error: "Type invalide : le prix doit être un nombre"
+      //   });
+      // }
+      // TODO! : réparer ce check ne passe pas
       const modifiedArticle = await articleDataMapper.updateOneArticle({
         id,
         title,

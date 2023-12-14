@@ -64,6 +64,7 @@ const imageController = {
       }
 
       // Envoyer le fichier de l'image en réponse
+      console.log(userImage);
       return response.sendFile(userImage);
     } catch (error) {
       console.error(error);
@@ -86,7 +87,9 @@ const imageController = {
       const { filename } = request.file;
 
       // Enregistrez le nom de fichier dans la base de données pour l'utilisateur
-      const image_profile_url = `http://localhost:3000/uploads/user/${filename}`;
+      const image_profile_url = `http://localhost:3000/images/uploads/user/${
+        filename.split(".")[0]
+      }`;
       const updatedUser = await userDataMapper.insertImageProfileByUserId(
         id,
         image_profile_url
@@ -159,7 +162,9 @@ const imageController = {
       const { filename } = request.file;
 
       // Enregistrez le nom de fichier dans la base de données pour l'article
-      const photo_url = `http://localhost:3000/uploads/article/${filename}`;
+      const photo_url = `http://localhost:3000/images/uploads/article/${
+        filename.split(".")[0]
+      }`;
       const updatedArticle = await articleDataMapper.insertImageByArticleId(
         id,
         photo_url
