@@ -27,9 +27,9 @@ async function sendMailWithLogging(mailOptions, successMessage) {
 const emailService = {
   sendConfirmationEmail: async (toEmail) => {
     const mailOptions = {
-      from: "ruthie52@ethereal.email",
+      from: "contact.manga.sama@gmail.com",
       to: toEmail,
-      subject: "(づ｡◕‿‿◕｡)づ Confirmation d'inscription",
+      subject: "(づ｡◕‿‿◕｡)づ Manga-Sama Confirmation d'inscription 🍣",
       html: htmlRegisterContent,
       attachments: [
         {
@@ -121,7 +121,7 @@ const emailService = {
       .replace("{{MANGA_TITLE}}", articleInfos.title);
 
     const mailOptions = {
-      from: "ruthie52@ethereal.email",
+      from: "contact.manga.sama@gmail.com",
       to: buyerEmail,
       subject: `Le manga "${articleInfos.title}" a été réservé!📚`,
       html: htmlBuyContent,
@@ -180,7 +180,7 @@ const emailService = {
       .replace("{{MANGA_TITLE}}", articleInfos.title);
 
     const mailOptions = {
-      from: "ruthie52@ethereal.email",
+      from: "contact.manga.sama@gmail.com",
       to: sellerEmail,
       subject: `Ton manga "${articleInfos.title}" a été acheté!📚`,
       html: sellerConfirmationMailContent,
