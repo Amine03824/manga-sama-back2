@@ -13,7 +13,6 @@ const authenticationController = {
 
       // Vérifie si l'utilisateur existe dans la base de données
       const user = await userDataMapper.findOneUserByEmail(email);
-      console.log(user);
       if (!user) {
         // Retourne une réponse d'erreur si l'utilisateur n'est pas trouvé
         return response
@@ -36,7 +35,7 @@ const authenticationController = {
         jwtConfig.jwtSecretKey,
         { expiresIn: "1h" }
       );
-
+      console.log(token);
       // Retourne une réponse avec le statut 200 et les données de l'utilisateur ainsi que le token
       return response.status(200).json({
         success: true,

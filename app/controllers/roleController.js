@@ -5,13 +5,6 @@ const roleController = {
   getAllRoles: async (request, response, next) => {
     try {
       // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const roles = await roleDataMapper.findAllRoles();
       if (!roles) {
         return next();
@@ -32,14 +25,6 @@ const roleController = {
   // Crée un nouveau rôle dans la base de données
   createOneRole: async (request, response) => {
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const { role_name } = request.body;
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
@@ -112,14 +97,6 @@ const roleController = {
   // Modifie un rôle par son id
   modifyOneRoleById: async (request, response) => {
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const { id } = request.params;
 
       const { role_name } = request.body;
@@ -166,14 +143,6 @@ const roleController = {
   // Supprime un rôle par son code id
   removeOneRoleById: async (request, response) => {
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const { id } = request.params;
 
       const role = await roleDataMapper.deleteOneRoleById(id);

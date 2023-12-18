@@ -1,17 +1,11 @@
 const conditionDataMapper = require("../dataMappers/conditionDataMapper");
+
+
 const conditionController = {
   // Récupère tous les états d'un manga de la base de données
   getAllConditions: async (request, response, next) => {
+    
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
-
       const conditions = await conditionDataMapper.findAllConditions();
       if (!conditions) {
         return next();
@@ -32,14 +26,6 @@ const conditionController = {
   // Crée un nouvel état de manga dans la base de données
   createOneCondition: async (request, response) => {
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const { condition_name } = request.body;
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
@@ -111,14 +97,6 @@ const conditionController = {
 
   modifyOneConditionById: async (request, response) => {
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const { id } = request.params;
 
       const { condition_name } = request.body;
@@ -165,14 +143,6 @@ const conditionController = {
   // Supprime un état par son code ISBN
   removeOneConditionById: async (request, response) => {
     try {
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       const { id } = request.params;
 
       const condition = await conditionDataMapper.deleteOneConditionById(id);

@@ -7,7 +7,7 @@ const userController = require("../controllers/userController");
 
 // Import du middleware d'authentification
 const {
-  authenticateMiddleware
+  authenticateMiddleware,userOwnerMiddleware
 } = require("../middlewares/authenticationMiddleware");
 
 // Route correspondant aux utilisateurs
@@ -19,11 +19,11 @@ router
 // Route correspondant à un utilisateur spécifique
 router
   .route("/:id")
-  .get(authenticateMiddleware, userController.getOneUserById)
-  .put(authenticateMiddleware, userController.modifyOneUserById)
-  .patch(authenticateMiddleware, userController.modifyOneUserEmailById)
-  // .patch(userController.modifyOneUserPasswordById) Route de moficiation de mot de passe
-  .delete(authenticateMiddleware, userController.removeOneUserById);
+  .get(authenticateMiddleware,userOwnerMiddleware, userController.getOneUserById)
+  .put(authenticateMiddleware,userOwnerMiddleware,  userController.modifyOneUserById)
+  .patch(authenticateMiddleware,userOwnerMiddleware,  userController.modifyOneUserEmailById)
+  // .patch(authenticateMiddleware,userOwnerMiddleware, userController.modifyOneUserPasswordById) Route de moficiation de mot de passe
+  .delete(authenticateMiddleware,userOwnerMiddleware,  userController.removeOneUserById);
 
 // Export
 module.exports = router;

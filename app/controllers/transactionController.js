@@ -6,22 +6,27 @@ const userDataMapper = require("../dataMappers/userDataMapper");
 const transactionController = {
   addTransaction: async (request, response) => {
     try {
-      const { userID } = request.user.userId;
-      const { sellerID, articleID } = request.body;
+      const { userId } = request.user;
+      const { sellerId, articleId } = request.body;
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
-      if (!sellerID || !articleID || userID) {
+      if (!sellerId || !articleId || !userId) {
         return response.status(400).json({
           error: "Paramètre manquant dans le corps de la requête"
         });
       }
-
-      if (userID === sellerID) {
+      console.log("userId : " + userId);
+      console.log("sellerId : " + sellerId);
+      console.log("articleIDd: " + articleId);
+      console.log("Type de userId : " + typeof userId);
+      console.log("Type de sellerID : " + typeof sellerId);
+      
+      if (userId == sellerId) { // le userId est un number et le sellerID une string on fait donc uen égalité non stricte
         return response.status(403).json({
           message: "Souhaites-tu vraiment t'acheter toi même ton article? o_o"
         });
       }
-      const buyerEmail = await userDataMapper.findOneUserEmailById(userID);
-      const sellerEmail = await userDataMapper.findOneUserEmailById(sellerID);
+      const buyerEmail = await userDataMapper.findOneUserEmailById(userId);
+      const sellerEmail = await userDataMapper.findOneUserEmailById(sellerId);
 
       const transaction_id = uuidv4();
       const date_transaction = new Date();
@@ -29,7 +34,7 @@ const transactionController = {
 
       const newTransaction =
         await transactionDataMapper.updateTransactionDetails(
-          articleID,
+          articleId,
           transaction_id,
           date_transaction,
           state_completion

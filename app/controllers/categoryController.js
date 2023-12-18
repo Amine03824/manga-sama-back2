@@ -1,5 +1,4 @@
 const categoryDataMapper = require("../dataMappers/categoryDataMapper");
-const tokensBlacklist = require("../middlewares/authenticationMiddleware");
 const categoryController = {
   // Récupère toutes les catégories d'un manga de la base de données
   getAllCategories: async (request, response, next) => {
@@ -97,18 +96,8 @@ const categoryController = {
   modifyOneCategoryById: async (request, response) => {
     try {
       const { id } = request.params;
-      const token = request.headers.authorization.split(" ")[1];
       const { category_name } = request.body;
 
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        tokensBlacklist.push(token);
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       if (!category_name) {
         return response.json({
           status: 400,
@@ -152,18 +141,8 @@ const categoryController = {
   removeOneCategoryById: async (request, response) => {
     try {
       const { id } = request.params;
-      const token = request.headers.authorization.split(" ")[1];
       const category = await categoryDataMapper.deleteOneCategoryById(id);
 
-      // Vérifier si l'utilisateur a le rôle d'administrateur
-      if (request.user?.role_id !== 2) {
-        tokensBlacklist.push(token);
-        // Si l'utilisateur n'est pas authentifié en tant qu'administrateur, renvoyer une réponse d'erreur
-        return response.status(403).json({
-          success: false,
-          message: "Accès interdit. Vous n'êtes pas administrateur."
-        });
-      }
       if (!category) {
         // Aucun catégorie trouvée, renvoyer une réponse 404 Not Found
         return response.json({

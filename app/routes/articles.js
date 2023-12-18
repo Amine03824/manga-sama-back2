@@ -7,21 +7,21 @@ const articleController = require("../controllers/articleController");
 
 // Import du middleware d'authentification
 const {
-  authenticateMiddleware
+  authenticateMiddleware, articleOwnerMiddleware
 } = require("../middlewares/authenticationMiddleware");
 
 // Routes correspondant aux annonces
 router
   .route("/")
   .get(articleController.getAllArticles)
-  .post(authenticateMiddleware, articleController.createOneArticle);
+  .post(authenticateMiddleware,articleOwnerMiddleware, articleController.createOneArticle);
 
 // Routes correspondant à une annonce spécifique
 router
   .route("/:id")
   .get(articleController.getOneArticleById)
-  .put(authenticateMiddleware, articleController.modifyOneArticleById)
-  .delete(authenticateMiddleware, articleController.removeOneArticleById);
+  .put(authenticateMiddleware,articleOwnerMiddleware, articleController.modifyOneArticleById)
+  .delete(authenticateMiddleware,articleOwnerMiddleware, articleController.removeOneArticleById);
 
 // Export
 module.exports = router;

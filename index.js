@@ -8,8 +8,6 @@ const bodySanitizer = require("./app/middlewares/body-sanitizer.js");
 
 // Import de la base de données pour se connecter automatiquement
 const { connectToDatabase } = require("./app/config/database");
-// Importe la configuration JWT
-// const jwtConfig = require('./config/jwt');
 
 const app = express();
 

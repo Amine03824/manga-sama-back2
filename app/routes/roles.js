@@ -7,24 +7,21 @@ const roleController = require("../controllers/roleController");
 
 // Import du middleware d'authentification
 const {
-  authenticateMiddleware
+  authenticateMiddleware , roleMiddleware 
 } = require("../middlewares/authenticationMiddleware");
-
-// Ajout du Middleware d'authentification sécurisée
-router.use(authenticateMiddleware);
 
 // Routes correspondant aux rôles utilisateur
 router
   .route("/")
   .get(roleController.getAllRoles)
-  .post(roleController.createOneRole);
+  .post(authenticateMiddleware, roleMiddleware,roleController.createOneRole);
 
 // Routes correspondant à un role spécifique
 router
   .route("/:id")
   .get(roleController.getOneRoleById)
-  .patch(roleController.modifyOneRoleById)
-  .delete(roleController.removeOneRoleById);
+  .patch(authenticateMiddleware, roleMiddleware,roleController.modifyOneRoleById)
+  .delete(authenticateMiddleware, roleMiddleware,roleController.removeOneRoleById);
 
 // Export
 module.exports = router;

@@ -7,7 +7,7 @@ const mangaController = require("../controllers/mangaController");
 
 // Import du middleware d'authentification
 const {
-  authenticateMiddleware
+  authenticateMiddleware, roleMiddleware
 } = require("../middlewares/authenticationMiddleware");
 
 // Routes correspondant aux mangas
@@ -20,8 +20,8 @@ router
 router
   .route("/:isbn")
   .get(authenticateMiddleware, mangaController.getOneMangaById)
-  .put(authenticateMiddleware, mangaController.modifyOneMangaById)
-  .delete(authenticateMiddleware, mangaController.removeOneMangaById);
+  .put(authenticateMiddleware,roleMiddleware, mangaController.modifyOneMangaById)
+  .delete(authenticateMiddleware,roleMiddleware, mangaController.removeOneMangaById);
 
 // Route d'API d'insertion d'un nouveau manga en base de données
 router.route("/API/:isbn").get(mangaController.getMangaInfos);

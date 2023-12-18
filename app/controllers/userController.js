@@ -137,7 +137,7 @@ const userController = {
         try {
           // Génère un token JWT en utilisant la clé secrète et spécifiant une expiration d'une heure
           const token = jwt.sign(
-            { userId: newUser.id, role: newUser.role },
+            { userId: newUser.id, role: newUser.role_id },
             jwtConfig.jwtSecretKey,
             { expiresIn: "1h" }
           );
@@ -227,14 +227,14 @@ const userController = {
       } = request.body;
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
       if (
-        typeof lastname !== "string" ||
-        typeof firstname !== "string" ||
-        typeof pseudo !== "string" ||
-        typeof birthdate !== "string" ||
-        typeof address !== "string" ||
-        typeof zip_code !== "string" ||
-        typeof city !== "string" ||
-        typeof phone_number !== "string"
+        (typeof lastname !== "string" && lastname !== null) ||
+        (typeof firstname !== "string" && firstname !== null) ||
+        (typeof pseudo !== "string" && pseudo !== null) ||
+        (typeof birthdate !== "string" && birthdate !== null) ||
+        (typeof address !== "string" && address !== null) ||
+        (typeof zip_code !== "string" && zip_code !== null) ||
+        (typeof city !== "string" && city !== null) ||
+        (typeof phone_number !== "string" && phone_number !== null)
       ) {
         return response.json({
           status: 400,
@@ -242,18 +242,18 @@ const userController = {
         });
       }
       // Définition d'une expression régulière (regex) pour les noms contenant uniquement des caractères latins
-      const nameRegex = /^[a-zA-ZÀ-ÿ]*$/;
+      const nameRegex = /^[a-zA-ZÀ-ÿ0-9]*$/;
 
       // Définition du schéma de validation avec Joi
       const schema = Joi.object({
         // Champ 'lastname' avec validation Joi
-        lastname: Joi.string().min(1).regex(nameRegex).required().messages({
+        lastname: Joi.string().allow(null, '').min(1).regex(nameRegex).required().messages({
           "string.pattern.base":
             "Le nom doit contenir uniquement des caractères latins"
         }),
 
         // Champ 'firstname' avec validation Joi
-        firstname: Joi.string().min(1).regex(nameRegex).required().messages({
+        firstname: Joi.string().allow(null, '').min(1).regex(nameRegex).required().messages({
           "string.pattern.base":
             "Le prénom doit contenir uniquement des caractères latins"
         }),

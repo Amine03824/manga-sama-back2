@@ -1,5 +1,4 @@
 const articleDataMapper = require("../dataMappers/articleDataMapper");
-const tokensBlacklist = require("../middlewares/authenticationMiddleware");
 
 /**
  * Controller pour gérer les requêtes liées aux articles.
@@ -125,7 +124,7 @@ const articleController = {
   modifyOneArticleById: async (request, response) => {
     try {
       const { id } = request.params;
-      const { userID } = request.user.userId;
+      const { userId } = request.user.userId;
       const { title, description, price, image_url, condition_id } =
         request.body;
       if (
@@ -146,7 +145,7 @@ const articleController = {
         id
       );
 
-      if (userID !== articleOwner) {
+      if (userId !== articleOwner) {
         return response.status(403).json({
           message: "tu fais des trucs bizarres toi non?"
         });
@@ -188,12 +187,12 @@ const articleController = {
   removeOneArticleById: async (request, response) => {
     try {
       const { id } = request.params;
-      const { userID } = request.user.userId;
+      const { userId } = request.user.userId;
       const articleOwner = await articleDataMapper.findArticleOwnerByArticleId(
         id
       );
 
-      if (userID !== articleOwner) {
+      if (userId !== articleOwner) {
         return response.status(403).json({
           message: "tu fais des trucs bizarres toi non?"
         });
