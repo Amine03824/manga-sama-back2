@@ -1,6 +1,6 @@
 # Bienvenue sur le Repo Back du projet Manga-Sama 🍣  
 
-## 🌿 Last branch standing : feat/userUpload 📤
+## ~~🌿 Last branch standing : feat/userUpload 📤~~
 
 ## ~~🌿 Last branch standing : feat/TRANSACTION+STRIPE 💳~~
 
