@@ -14,7 +14,7 @@ const {
 router
   .route("/")
   .get(articleController.getAllArticles)
-  .post(authenticateMiddleware,articleOwnerMiddleware, articleController.createOneArticle);
+  .post(authenticateMiddleware, articleController.createOneArticle);
 
 // Routes correspondant à une annonce spécifique
 router
