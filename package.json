@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "dbr:create": "psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f  data/SQL/create_tables.sql",
-    "dbr:seed": "psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f data/SQL/seed_tables.sql",
-    "dbr:reset": "psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f  data/SQL/create_tables.sql && psql \"postgresql://Amine03824:L2uwqH1ovtpG@ep-noisy-butterfly-47808311-pooler.eu-central-1.aws.neon.tech/mangadb?sslmode=require\" -f data/SQL/seed_tables.sql",
+    "dbr:create": "psql \"postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}/${PG_DATABASE}?sslmode=${PG_SSLMODE}\" -f  data/SQL/create_tables.sql",
+    "dbr:seed": "psql \"postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}/${PG_DATABASE}?sslmode=${PG_SSLMODE}\" -f data/SQL/seed_tables.sql",
+    "dbr:reset": "psql \"postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}/${PG_DATABASE}?sslmode=${PG_SSLMODE}\" -f  data/SQL/create_tables.sql && psql \"postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}/${PG_DATABASE}?sslmode=${PG_SSLMODE}\" -f data/SQL/seed_tables.sql",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
