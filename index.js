@@ -22,11 +22,7 @@ app.use(express.json());
 // avant le routeur on configure la CORS policy
 // on précise entre les parenthèses les origines des requêtes que l'on accepte
 // nous on va accepter toutes les requêtes qui viennent de partout ( * = all )
-app.use(cors({
-  origin : "*",
-  allowedHeaders : "Content-Type",
-  methods : 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTION'
-}));
+app.use(cors("*"));
 // on utilise le body sanitizer qui nous protège des failles XSS
 app.use(bodySanitizer);
 
