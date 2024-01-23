@@ -12,6 +12,7 @@ async function mangaAPI(unformattedIsbn) {
   console.log("isbn non formaté :" +unformattedIsbn);
   // Construire l'URL en utilisant l'isbn
   // Retirer les tirets de l'ISBN
+
   const isbn = parseInt(unformattedIsbn.replace(/-/g, ''));
   const url = `https://www.decitre.fr/livres/${isbn}.html`;
   console.log("isbn formaté :" +isbn);
