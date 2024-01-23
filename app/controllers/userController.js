@@ -47,7 +47,7 @@ const userController = {
       }
 
       // Définition d'une expression régulière (regex) pour les noms contenant uniquement des caractères latins
-      const nameRegex = /^[a-zA-ZÀ-ÿ0-9]*$/;
+      const nameRegex = /^[a-zA-ZÀ-ÿ0-9\s]*$/;
 
       // Définition du schéma de validation avec Joi
       const schema = Joi.object({

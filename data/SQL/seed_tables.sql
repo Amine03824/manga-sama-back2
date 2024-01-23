@@ -70,7 +70,7 @@ VALUES
   ('Hunter X Hunter Tome 4', NULL, 14, NULL, NULL,'En ligne', 'https://manga-samas.onrender.com/images/9782871292692', 1),
   ('Hunter X Hunter Tome 5', NULL, 16, NULL, NULL,'En ligne', 'https://manga-samas.onrender.com/images/9782871292708', 2),
   ('Death Note Tome 1', NULL, 18, NULL, NULL,'En ligne', 'https://manga-samas.onrender.com/images/9782505000327', 3),
-  ('Ubel Blatt Tome 0', NULL, 10, NULL, NULL,'En ligne', 'http://localhost:3001/images/9782915513585', 2),
+  ('Ubel Blatt Tome 0', NULL, 10, NULL, NULL,'En ligne', 'https://localhost:3001/images/9782915513585', 2),
   ('Reborn !', NULL, 15, NULL, NULL,'En ligne', 'https://manga-samas.onrender.com/images/9782723455862', 1),
   ('Monster Intégrale', NULL, 20, NULL, NULL,'En ligne', 'https://manga-samas.onrender.com/images/9782505009993', 2),
   (E'L\'attaque des titans',NULL, 15, NULL, NULL,'En ligne', 'https://manga-samas.onrender.com/images/9782811679811', 3),

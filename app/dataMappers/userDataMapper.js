@@ -143,6 +143,8 @@ const userDataMapper = {
   
     return result.rows[0];
   },
+
+
   
   // Trouve l'email d'un utilisateur par son ID
   findOneUserEmailById: async (id) => {
