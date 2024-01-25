@@ -46,6 +46,7 @@ const articleDataMapper = {
           transaction_id: article.transaction_id,
           date_transaction: article.date_transaction,
           state_completion: article.state_completion,
+          condition_id : article.condition_id,
           created_at: article.a_created_at,
           updated_at: article.a_updated_at
         },

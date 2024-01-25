@@ -23,7 +23,7 @@ GET http://localhost:3000/manga/ HTTP/1.1
 
 ###
 // 🌍 Route d'API d'insertion d'un nouveau manga en base de données .getMangaInfos
-GET http://localhost:3000/manga/API/9782723492560 HTTP/1.1
+GET http://localhost:3000/manga/API/9782355920004 HTTP/1.1
 
 
 ###

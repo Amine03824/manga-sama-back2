@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 ###
 // Obtenir les informations d'une annonce .getOneArticleById
-GET http://localhost:3000/article/19 HTTP/1.1
+GET http://localhost:3000/article/34 HTTP/1.1
 
 ###
 // Modifier une annonce .modifyOneArticleById
@@ -33,4 +33,4 @@ Content-Type: application/json
 
 ###
 // Supprimer une annonce .removeOneArticleById
-DELETE  http://localhost:3000/article/20 HTTP/1.1
+DELETE  http://localhost:3000/article/34 HTTP/1.1
