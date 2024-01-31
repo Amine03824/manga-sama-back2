@@ -683,7 +683,7 @@ Le router "images" gère les différentes opérations liées aux images, notamme
   ~~~
 # Utilisateurs
 ## 1\. Récupérer tous les Utilisateurs
-- **URL:** `/users/`
+- **URL:** `/user/`
 - **Méthode:** `GET`
 - **Description:** Récupère la liste de tous les utilisateurs enregistrés dans la base de données.
 - **Exemple de Réponse en Cas de Succès:**
@@ -703,7 +703,7 @@ Le router "images" gère les différentes opérations liées aux images, notamme
   }
   ~~~
 ## 2\. Créer un Nouvel Utilisateur
-- **URL:** `/users/`
+- **URL:** `/user/`
 - **Méthode:** `POST`
 - **Description:** Crée un nouvel utilisateur dans la base de données.
 - **Paramètres Requis dans le Corps de la Requête:**
@@ -736,7 +736,7 @@ Le router "images" gère les différentes opérations liées aux images, notamme
   }
   ~~~
 ## 3\. Récupérer un Utilisateur par son ID
-- **URL:** `/users/:id`
+- **URL:** `/user/:id`
 - **Méthode:** `GET`
 - **Description:** Récupère les détails d'un utilisateur spécifique en fonction de son ID.
 - **Paramètres Requis dans l'URL:**
@@ -755,7 +755,7 @@ Le router "images" gère les différentes opérations liées aux images, notamme
   }
   ~~~
 ## 4\. Modifier un Utilisateur par son ID
-- **URL:** `/users/:id`
+- **URL:** `/user/:id`
 - **Méthode:** `PUT`
 - **Description:** Modifie les informations d'un utilisateur spécifique en fonction de son ID.
 - **Paramètres Requis dans l'URL:**
@@ -798,7 +798,7 @@ Le router "images" gère les différentes opérations liées aux images, notamme
   }
   ~~~
 ## 5\. Modifier l'Adresse E-mail d'un Utilisateur par son ID
-- **URL:** `/users/:id`
+- **URL:** `/user/:id`
 - **Méthode:** `PATCH`
 - **Description:** Modifie l'adresse e-mail d'un utilisateur spécifique en fonction de son ID.
 - **Paramètres Requis dans l'URL:**
@@ -826,7 +826,7 @@ Le router "images" gère les différentes opérations liées aux images, notamme
   }
   ~~~
 ## 6\. Supprimer un Utilisateur par son ID
-- **URL:** `/users/:id`
+- **URL:** `/user/:id`
 - **Méthode:** `DELETE`
 - **Description:** Supprime un utilisateur spécifique en fonction de son ID.
 - **Paramètres Requis dans l'URL:**
