@@ -10,6 +10,8 @@ C'est l'API et le cœur backend de notre plateforme dédiée à l'univers du man
 > 📁 [**ACCÉDER AU DOSSIER COMPLET DU PROJET**](https://amine.works/download-dossier)
 > 
 > 📊 [**LA PRÉSENTATION POWERPOINT**](https://amine.works/download-presentation)
+>
+> 💻 [**DÉCOUVRIR LE REPO FRONTEND (REACT)**](🔗_remplace_par_ton_lien_ici) 
 
 ---
 
