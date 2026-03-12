@@ -11,7 +11,7 @@ C'est l'API et le cœur backend de notre plateforme dédiée à l'univers du man
 > 
 > 📊 [**LA PRÉSENTATION POWERPOINT**](https://amine.works/download-presentation)
 >
-> 💻 [**DÉCOUVRIR LE REPO FRONTEND (REACT)**](🔗_remplace_par_ton_lien_ici) 
+> 💻 [**DÉCOUVRIR LE REPO FRONTEND (REACT)**](https://github.com/Amine03824/manga-sama-front-) 
 
 ---
 
