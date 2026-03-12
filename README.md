@@ -3,6 +3,7 @@
 ![Schema](./public/schema-backend.png)
 
 C'est l'API et le cœur backend de notre plateforme dédiée à l'univers du manga, la logique métier, l'architecture BDD, l'authentification, et la beta du système de transaction.
+
 👇 **POUR ALLER PLUS LOIN :** 👇
 
 > ### 📖 Liens Importants
