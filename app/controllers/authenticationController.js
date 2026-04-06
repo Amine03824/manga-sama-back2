@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwtConfig = require("../config/jwt");
 const userDataMapper = require("../dataMappers/userDataMapper");
 const tokensBlacklist = require("../middlewares/authenticationMiddleware");
@@ -33,7 +33,7 @@ const authenticationController = {
       const token = jwt.sign(
         { userId: user.id, role: user.role_id },
         jwtConfig.jwtSecretKey,
-        { expiresIn: "1h" }
+        { expiresIn: "1h" },
       );
       console.log(token);
       // Retourne une réponse avec le statut 200 et les données de l'utilisateur ainsi que le token
@@ -41,7 +41,7 @@ const authenticationController = {
         success: true,
         message: "Connexion réussie",
         user: user,
-        token: token
+        token: token,
       });
     } catch (error) {
       // Gestion des erreurs - retourne une réponse avec le statut 500 en cas d'erreur
@@ -50,8 +50,8 @@ const authenticationController = {
         status: 500,
         success: false,
         error: {
-          message: error.message
-        }
+          message: error.message,
+        },
       });
     }
   },
@@ -77,7 +77,7 @@ const authenticationController = {
       // Répond avec un succès pour indiquer que la déconnexion s'est déroulée correctement
       return response.status(200).json({
         success: true,
-        message: "Déconnexion réussie"
+        message: "Déconnexion réussie",
       });
     } catch (error) {
       // Gestion des erreurs - retourne une réponse avec le statut 500 en cas d'erreur
@@ -85,11 +85,11 @@ const authenticationController = {
       return response.status(500).json({
         success: false,
         error: {
-          message: error.message
-        }
+          message: error.message,
+        },
       });
     }
-  }
+  },
 };
 
 // Exporte le contrôleur d'authentification

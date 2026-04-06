@@ -18,8 +18,8 @@ const mangaController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -33,7 +33,7 @@ const mangaController = {
       if (!isbn) {
         return response.json({
           status: 400,
-          error: "L'ISBN est manquant."
+          error: "L'ISBN est manquant.",
         });
       }
 
@@ -54,7 +54,7 @@ const mangaController = {
             author: mangaInfo.author,
             description: mangaInfo.description,
             cover_url: `https://manga-samas.onrender.com/images/${mangaInfo.code_isbn}`,
-            category_id: mangaInfo.category_id
+            category_id: mangaInfo.category_id,
           });
 
           if (insertedManga) {
@@ -67,7 +67,7 @@ const mangaController = {
               status: 200,
               success: false,
               message:
-                "Aucun manga n'a été créé, peut-être que le manga existe déjà"
+                "Aucun manga n'a été créé, peut-être que le manga existe déjà",
             });
           }
         } else {
@@ -75,7 +75,7 @@ const mangaController = {
           return response.json({
             status: 404,
             success: false,
-            message: "Les informations du manga n'ont pas pu être récupérées."
+            message: "Les informations du manga n'ont pas pu être récupérées.",
           });
         }
       } catch (error) {
@@ -84,8 +84,8 @@ const mangaController = {
           status: 500,
           success: false,
           error: {
-            message: error.toString()
-          }
+            message: error.toString(),
+          },
         });
       }
     } catch (error) {
@@ -94,8 +94,8 @@ const mangaController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -111,7 +111,7 @@ const mangaController = {
         author,
         description,
         cover_url,
-        category_id
+        category_id,
       } = request.body;
 
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
@@ -126,7 +126,7 @@ const mangaController = {
         !category_id
       ) {
         return response.status(400).json({
-          error: "Missing body parameter"
+          error: "Missing body parameter",
         });
       }
       const newManga = await mangaDataMapper.insertOneManga({
@@ -137,7 +137,7 @@ const mangaController = {
         author,
         description,
         cover_url,
-        category_id
+        category_id,
       });
 
       if (newManga) {
@@ -147,7 +147,7 @@ const mangaController = {
           status: 201,
           success: true,
           message: "Le manga a été créé avec succès",
-          manga: newManga
+          manga: newManga,
         });
       } else {
         // Aucune ligne affectée, la création n'a pas été effectuée
@@ -155,7 +155,7 @@ const mangaController = {
           status: 200,
           success: false,
           message:
-            "Aucun manga n'a été créé, peut-être que le manga existe déjà"
+            "Aucun manga n'a été créé, peut-être que le manga existe déjà",
         });
       }
     } catch (error) {
@@ -164,8 +164,8 @@ const mangaController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -177,6 +177,8 @@ const mangaController = {
       const manga = await mangaDataMapper.findOneMangaById(isbn);
       // Si Aucun manga trouvé on essaye avec l'API
       if (!manga) {
+        console.log("coucou");
+
         const unformattedIsbn = isbn;
         return response.redirect(`/manga/API/${unformattedIsbn}`);
       }
@@ -188,8 +190,8 @@ const mangaController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -206,13 +208,13 @@ const mangaController = {
         author,
         description,
         cover_url,
-        category_id
+        category_id,
       } = request.body;
 
       if (!code_isbn || !title || !author || !description || !cover_url) {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans le corps de la requête HTTP"
+          error: "Paramètre manquant dans le corps de la requête HTTP",
         });
       }
 
@@ -224,7 +226,7 @@ const mangaController = {
         author,
         description,
         cover_url,
-        category_id
+        category_id,
       });
 
       if (modifiedManga) {
@@ -233,14 +235,14 @@ const mangaController = {
           status: 201,
           success: true,
           message: "Le manga a été modifié avec succès",
-          manga: modifiedManga
+          manga: modifiedManga,
         });
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
         return response.json({
           status: 200,
           success: false,
-          message: "Aucun manga n'a été modifié"
+          message: "Aucun manga n'a été modifié",
         });
       }
     } catch (error) {
@@ -249,8 +251,8 @@ const mangaController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -266,13 +268,13 @@ const mangaController = {
         return response.json({
           status: 404,
           success: false,
-          message: "Aucun manga trouvé avec le code isbn spécifié"
+          message: "Aucun manga trouvé avec le code isbn spécifié",
         });
       }
       return response.json({
         status: 200,
         success: true,
-        message: "Manga supprimé avec succès"
+        message: "Manga supprimé avec succès",
       });
     } catch (error) {
       console.log(error);
@@ -280,11 +282,11 @@ const mangaController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
-  }
+  },
 };
 
 module.exports = mangaController;

@@ -1,5 +1,5 @@
 const validator = require("email-validator");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const Joi = require("joi");
 const emailService = require("../services/mail/emailService.js");
 const jwt = require("jsonwebtoken");
@@ -21,8 +21,8 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -42,7 +42,7 @@ const userController = {
         return response.json({
           status: 400,
           error:
-            "Paramètre manquant ou type incorrect dans le corps de la requête HTTP"
+            "Paramètre manquant ou type incorrect dans le corps de la requête HTTP",
         });
       }
 
@@ -55,20 +55,20 @@ const userController = {
         pseudo: Joi.string().min(2).regex(nameRegex).required().messages({
           "string.min": "Le pseudo doit contenir au moins 2 caractères",
           "string.pattern.base":
-            "Le pseudo doit contenir uniquement des caractères latins"
+            "Le pseudo doit contenir uniquement des caractères latins",
         }),
 
         // Champ 'password' avec validation Joi et regex pour des exigences spécifiques
         password: Joi.string()
           .min(8)
           .regex(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*-])[A-Za-z\d!@#$%^&*-]+$/
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*-])[A-Za-z\d!@#$%^&*-]+$/,
           )
           .required()
           .messages({
             "string.min": "Le mot de passe doit contenir au moins 8 caractères",
             "string.pattern.base":
-              "Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial parmi !@#$%^&*"
+              "Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial parmi !@#$%^&*",
           }),
 
         // Champ 'passwordConfirmation' avec validation Joi, vérifiant qu'il correspond au champ 'password'
@@ -77,15 +77,15 @@ const userController = {
           .required()
           .messages({
             "any.only":
-              "La confirmation du mot de passe doit correspondre au mot de passe"
-          })
+              "La confirmation du mot de passe doit correspondre au mot de passe",
+          }),
       });
 
       // Application du schéma à un objet contenant les champs 'password' et 'passwordConfirmation'
       const validation = schema.validate({
         pseudo,
         password,
-        passwordConfirmation
+        passwordConfirmation,
       });
 
       // Vérification des erreurs de validation
@@ -93,14 +93,14 @@ const userController = {
         // Retourne une réponse JSON avec le statut 400 en cas d'erreur de validation
         return response.json({
           status: 400,
-          error: validation.error.message
+          error: validation.error.message,
         });
       }
       // Vérifie si l'e-mail est valide en utilisant un module externe 'validator'
       if (!validator.validate(email)) {
         return response.json({
           status: 400,
-          error: "L'adresse e-mail fournie n'est pas valide"
+          error: "L'adresse e-mail fournie n'est pas valide",
         });
       }
 
@@ -109,7 +109,7 @@ const userController = {
       if (userFound) {
         return response.json({
           status: 400,
-          error: "Cet utilisateur existe déjà dans la base de données."
+          error: "Cet utilisateur existe déjà dans la base de données.",
         });
       }
 
@@ -117,7 +117,7 @@ const userController = {
       if (password !== passwordConfirmation) {
         return response.json({
           status: 400,
-          error: "Le mot de passe et la confirmation ne correspondent pas"
+          error: "Le mot de passe et la confirmation ne correspondent pas",
         });
       }
 
@@ -128,7 +128,7 @@ const userController = {
       const newUser = await userDataMapper.insertOneUser({
         pseudo,
         email,
-        password: encryptedPassword
+        password: encryptedPassword,
       });
 
       if (newUser) {
@@ -139,7 +139,7 @@ const userController = {
           const token = jwt.sign(
             { userId: newUser.id, role: newUser.role_id },
             jwtConfig.jwtSecretKey,
-            { expiresIn: "1h" }
+            { expiresIn: "1h" },
           );
           // Envoi d'un e-mail de confirmation ✉
           await emailService.sendConfirmationEmail(email);
@@ -148,19 +148,19 @@ const userController = {
             success: true,
             message: "Inscription réussie. Email de confirmation envoyé.",
             user: newUser,
-            token: token
+            token: token,
           });
         } catch (error) {
           console.error(error);
           response.status(500).json({
-            message: "Erreur lors de l'envoi de l'e-mail de confirmation."
+            message: "Erreur lors de l'envoi de l'e-mail de confirmation.",
           });
         }
         return response.json({
           status: 201,
           success: true,
           message: "L'utilisateur a été créé avec succès",
-          user: newUser
+          user: newUser,
         });
       } else {
         // Aucune ligne affectée, la création n'a pas été effectuée
@@ -168,7 +168,7 @@ const userController = {
           status: 200,
           success: false,
           message:
-            "Aucun utilisateur n'a été créé, peut-être que l'utilisateur existe déjà"
+            "Aucun utilisateur n'a été créé, peut-être que l'utilisateur existe déjà",
         });
       }
     } catch (error) {
@@ -178,8 +178,8 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.message
-        }
+          message: error.message,
+        },
       });
     }
   },
@@ -195,7 +195,7 @@ const userController = {
         return response.json({
           status: 404,
           success: false,
-          message: "Aucun utilisateur trouvé avec le code id spécifié"
+          message: "Aucun utilisateur trouvé avec le code id spécifié",
         });
       }
       return response.status(200).json(user);
@@ -205,8 +205,8 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -223,7 +223,7 @@ const userController = {
         address,
         zip_code,
         city,
-        phone_number
+        phone_number,
       } = request.body;
       // Vérifie la présence de tous les paramètres nécessaires dans le corps de la requête
       if (
@@ -238,7 +238,7 @@ const userController = {
       ) {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans le corps de la requête HTTP"
+          error: "Paramètre manquant dans le corps de la requête HTTP",
         });
       }
       // Définition d'une expression régulière (regex) pour les noms contenant uniquement des caractères latins
@@ -247,23 +247,33 @@ const userController = {
       // Définition du schéma de validation avec Joi
       const schema = Joi.object({
         // Champ 'lastname' avec validation Joi
-        lastname: Joi.string().allow(null, '').min(1).regex(nameRegex).required().messages({
-          "string.pattern.base":
-            "Le nom doit contenir uniquement des caractères latins"
-        }),
+        lastname: Joi.string()
+          .allow(null, "")
+          .min(1)
+          .regex(nameRegex)
+          .required()
+          .messages({
+            "string.pattern.base":
+              "Le nom doit contenir uniquement des caractères latins",
+          }),
 
         // Champ 'firstname' avec validation Joi
-        firstname: Joi.string().allow(null, '').min(1).regex(nameRegex).required().messages({
-          "string.pattern.base":
-            "Le prénom doit contenir uniquement des caractères latins"
-        }),
+        firstname: Joi.string()
+          .allow(null, "")
+          .min(1)
+          .regex(nameRegex)
+          .required()
+          .messages({
+            "string.pattern.base":
+              "Le prénom doit contenir uniquement des caractères latins",
+          }),
 
         // Champ 'pseudo' avec validation Joi
         pseudo: Joi.string().min(2).regex(nameRegex).required().messages({
           "string.min": "Le pseudo doit contenir au moins 2 caractères",
           "string.pattern.base":
-            "Le pseudo doit contenir uniquement des caractères latins"
-        })
+            "Le pseudo doit contenir uniquement des caractères latins",
+        }),
       });
 
       // Application du schéma à un objet contenant les champs 'password' et 'passwordConfirmation'
@@ -274,7 +284,7 @@ const userController = {
         // Retourne une réponse JSON avec le statut 400 en cas d'erreur de validation
         return response.json({
           status: 400,
-          error: validation.error.message
+          error: validation.error.message,
         });
       }
 
@@ -289,7 +299,7 @@ const userController = {
         address,
         zip_code,
         city,
-        phone_number
+        phone_number,
       });
 
       if (modifiedUser) {
@@ -298,14 +308,14 @@ const userController = {
           status: 201,
           success: true,
           message: "L'utilisateur a été modifié avec succès",
-          user: modifiedUser
+          user: modifiedUser,
         });
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
         return response.json({
           status: 200,
           success: false,
-          message: "Aucun utilisateur n'a été modifié"
+          message: "Aucun utilisateur n'a été modifié",
         });
       }
     } catch (error) {
@@ -314,8 +324,8 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -327,14 +337,14 @@ const userController = {
       if (typeof email !== "string") {
         return response.json({
           status: 400,
-          error: "Paramètre manquant dans le corps de la requête HTTP"
+          error: "Paramètre manquant dans le corps de la requête HTTP",
         });
       }
       // Vérifie si l'e-mail est valide en utilisant un module externe 'validator'
       if (!validator.validate(email)) {
         return response.json({
           status: 400,
-          error: "L'adresse e-mail fournie n'est pas valide"
+          error: "L'adresse e-mail fournie n'est pas valide",
         });
       }
       // Vérifie si l'utilisateur existe déjà dans la base de données
@@ -342,14 +352,14 @@ const userController = {
       if (userFound) {
         return response.json({
           status: 400,
-          error: "Cet utilisateur existe déjà dans la base de données."
+          error: "Cet utilisateur existe déjà dans la base de données.",
         });
       }
       // Continue avec la modification de l'utilisateur si les informations passent les vérfications
 
       const modifiedUserEmail = await userDataMapper.updateOneUserEmail({
         id,
-        email
+        email,
       });
 
       if (modifiedUserEmail) {
@@ -358,14 +368,14 @@ const userController = {
           status: 201,
           success: true,
           message: "L'email a été modifié avec succès",
-          user: modifiedUserEmail
+          user: modifiedUserEmail,
         });
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
         return response.json({
           status: 200,
           success: false,
-          message: "Aucun email n'a été modifié"
+          message: "Aucun email n'a été modifié",
         });
       }
     } catch (error) {
@@ -374,8 +384,8 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -396,7 +406,7 @@ const userController = {
         phone_number,
         email,
         password,
-        role_id
+        role_id,
       } = request.body;
 
       const adminModifiedUser = await userDataMapper.adminUpdateOneUser({
@@ -411,7 +421,7 @@ const userController = {
         phone_number,
         email,
         password,
-        role_id
+        role_id,
       });
 
       if (adminModifiedUser) {
@@ -420,14 +430,14 @@ const userController = {
           status: 201,
           success: true,
           message: "L'utilisateur a été modifié avec succès",
-          user: adminModifiedUser
+          user: adminModifiedUser,
         });
       } else {
         // Aucune ligne affectée, la modification n'a pas été effectuée
         return response.json({
           status: 200,
           success: false,
-          message: "Aucun utilisateur n'a été modifié"
+          message: "Aucun utilisateur n'a été modifié",
         });
       }
     } catch (error) {
@@ -436,8 +446,8 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -452,13 +462,13 @@ const userController = {
         return response.json({
           status: 404,
           success: false,
-          message: "Aucun utilisateur trouvé avec le code id spécifié"
+          message: "Aucun utilisateur trouvé avec le code id spécifié",
         });
       }
       return response.json({
         status: 200,
         success: true,
-        message: "Utilisateur supprimé avec succès"
+        message: "Utilisateur supprimé avec succès",
       });
     } catch (error) {
       console.log(error);
@@ -466,11 +476,11 @@ const userController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
-  }
+  },
 };
 
 module.exports = userController;
