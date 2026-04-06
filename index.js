@@ -5,9 +5,8 @@ const express = require("express");
 const router = require("./app/routes");
 const cors = require("cors");
 const bodySanitizer = require("./app/middlewares/body-sanitizer.js");
-const getManga = require('./tests/feedDB/isbn.js')
-const gitCommand = require('./tests/feedDB/isbn.js')
-
+const getManga = require("./tests/feedDB/isbn.js");
+const gitCommand = require("./tests/feedDB/isbn.js");
 
 // Import de la base de données pour se connecter automatiquement
 const { connectToDatabase } = require("./app/config/database");
@@ -36,9 +35,9 @@ app.use(router);
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log(`🌍 Le serveur tourne à : http://localhost:${PORT}`);
+  console.log(
+    `🌍 Le serveur tourne à : https://manga-sama-back2.onrender.com/:${PORT}`,
+  );
 });
-
-
 
 connectToDatabase();

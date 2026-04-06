@@ -24,7 +24,7 @@ const imageController = {
         return response.json({
           status: 404,
           success: false,
-          message: "Aucune couverture trouvée pour l'image demandée"
+          message: "Aucune couverture trouvée pour l'image demandée",
         });
       }
 
@@ -38,8 +38,8 @@ const imageController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -50,7 +50,7 @@ const imageController = {
       const { id } = request.params;
       const userImage = path.join(__dirname, userImageLocation, `${id}.jpg`);
       console.log(
-        "Une photo de profil d'un utilisateur va être envoyée : " + userImage
+        "Une photo de profil d'un utilisateur va être envoyée : " + userImage,
       );
 
       // Vérifier si l'image existe
@@ -59,7 +59,7 @@ const imageController = {
         return response.status(404).json({
           status: 404,
           success: false,
-          message: "Aucune image trouvée pour l'utilisateur demandé"
+          message: "Aucune image trouvée pour l'utilisateur demandé",
         });
       }
 
@@ -74,8 +74,8 @@ const imageController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -87,12 +87,12 @@ const imageController = {
       const { filename } = request.file;
 
       // Enregistrez le nom de fichier dans la base de données pour l'utilisateur
-      const image_profile_url = `http://localhost:3000/images/uploads/user/${
+      const image_profile_url = `https://manga-sama-back2.onrender.com/images/uploads/user/${
         filename.split(".")[0]
       }`;
       const updatedUser = await userDataMapper.insertImageProfileByUserId(
         id,
-        image_profile_url
+        image_profile_url,
       );
 
       if (!updatedUser) {
@@ -102,11 +102,11 @@ const imageController = {
       // Envoyez une réponse JSON indiquant le succès de l'upload
       response.status(202).json({
         updatedUser,
-        message: "Image téléchargée avec succès pour l'utilisateur"
+        message: "Image téléchargée avec succès pour l'utilisateur",
       });
       console.log(
         "L'image de profil de l'utilisateur a été mise à jour : " +
-          image_profile_url
+          image_profile_url,
       );
     } catch (error) {
       console.error(error);
@@ -125,7 +125,7 @@ const imageController = {
       const articleImage = path.join(
         __dirname,
         articleImageLocation,
-        `${id}.jpg`
+        `${id}.jpg`,
       );
       console.log("Une photo d'un article va être envoyée : " + articleImage);
 
@@ -135,7 +135,7 @@ const imageController = {
         return response.status(404).json({
           status: 404,
           success: false,
-          message: "Aucune image trouvée pour l'article demandé"
+          message: "Aucune image trouvée pour l'article demandé",
         });
       }
 
@@ -149,8 +149,8 @@ const imageController = {
         status: 500,
         success: false,
         error: {
-          message: error.toString()
-        }
+          message: error.toString(),
+        },
       });
     }
   },
@@ -162,18 +162,18 @@ const imageController = {
       const { filename } = request.file;
 
       // Enregistrez le nom de fichier dans la base de données pour l'article
-      const photo_url = `http://localhost:3000/images/uploads/article/${
+      const photo_url = `https://manga-sama-back2.onrender.com/images/uploads/article/${
         filename.split(".")[0]
       }`;
       const updatedArticle = await articleDataMapper.insertImageByArticleId(
         id,
-        photo_url
+        photo_url,
       );
 
       // Envoyez une réponse JSON indiquant le succès de l'upload
       response.status(202).json({
         updatedArticle,
-        message: "Image téléchargée avec succès pour l'article"
+        message: "Image téléchargée avec succès pour l'article",
       });
       console.log("L'image de l'article a été mise à jour : " + photo_url);
     } catch (error) {
@@ -184,7 +184,7 @@ const imageController = {
         .status(500)
         .json({ error: "Erreur lors de l'upload de l'image" });
     }
-  }
+  },
 };
 
 // Exporter le contrôleur d'images
